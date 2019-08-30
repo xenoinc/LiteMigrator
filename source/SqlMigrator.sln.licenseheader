@@ -1,0 +1,36 @@
+﻿extensions: .cs .cpp .h .sql
+/* Copyright Xeno Innovations, Inc. %CurrentYear%
+ * Date:    %CurrentYear%-%CurrentMonth%-%CurrentDay%
+ * Author:  %UserDisplayName%
+ * File:    %FileName%
+ * Description:
+ *
+ */
+
+extensions: .aspx .ascx
+<%-- 
+  Copyright Xeno Innovations, Inc. %CurrentYear%
+  Date:    %CurrentYear%-%CurrentMonth%-%CurrentDay%
+  Author:  %UserDisplayName%
+  File:    %FileName%
+  Description:
+
+--%>
+
+extensions: .vb
+' Copyright Xeno Innovations, Inc. %CurrentYear%
+' Date:   %CurrentYear%-%CurrentMonth%-%CurrentDay%
+' Author:  %UserDisplayName%
+' File:   %FileName%
+' Description:
+'
+
+extensions:  .xml .config .xsd .xaml
+<!--
+ * Copyright Xeno Innovations, Inc. %CurrentYear%
+ * Date:    %CurrentYear%-%CurrentMonth%-%CurrentDay%
+ * Author:  %UserDisplayName%
+ * File:    %FileName%
+ * Description:
+ *
+-->
