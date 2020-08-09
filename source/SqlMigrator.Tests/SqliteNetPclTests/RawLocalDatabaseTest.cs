@@ -7,6 +7,7 @@
  */
 
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Xeno.LiteMigrator.SystemTests.TestData;
@@ -16,6 +17,7 @@ namespace Xeno.LiteMigrator.SystemTests.Specs.SqliteNetPclTests
   [TestClass]
   public class RawLocalDatabaseTest
   {
+    private readonly string _dbPath = ":memory:"; // @"C:\temp\test.db"
     private SQLite.SQLiteAsyncConnection _db;
 
     public RawLocalDatabaseTest()
@@ -24,46 +26,44 @@ namespace Xeno.LiteMigrator.SystemTests.Specs.SqliteNetPclTests
       //var db = new SQLiteConnection(dbPath);
     }
 
-    ////[ClassCleanup]
-    ////public void ACleanup()
-    ////{
-    ////  System.Console.WriteLine("HERE! HERE! HERE! HERE! HERE! ");
-    ////  System.Console.WriteLine("HERE! HERE! HERE! HERE! HERE! ");
-    ////  System.Console.WriteLine("HERE! HERE! HERE! HERE! HERE! ");
-    ////}
-
     [TestMethod]
-    public void ConnectionTest()
+    public async Task FileConnectionTestAsync()
     {
-      // string dbPath = ":memory:";
-      string dbPath = @"C:\temp\test.db";
+      var guid = System.Guid.NewGuid().ToString();
+      string dbPath = $@"C:\temp\{guid}.db";
 
       if (System.IO.File.Exists(dbPath))
         System.IO.File.Delete(dbPath);
 
       _db = new SQLite.SQLiteAsyncConnection(dbPath);
+      await _db.CreateTableAsync<DummyTable>().ConfigureAwait(false);
 
       bool exists = System.IO.File.Exists(dbPath);
       Assert.AreEqual(true, exists, "Make sure VS is in Admin mode");
 
-      _db.CloseAsync();
+      await _db.CloseAsync();
+      if (File.Exists(dbPath))
+        File.Delete(dbPath);
+
+      if (File.Exists(dbPath))
+        Assert.Fail($"File '{dbPath}' was not deleted");
     }
 
     [TestMethod]
-    public async Task TableCreateTestAsync()
+    public async Task MemoryCreateTestAsync()
     {
+      // Assemble
       CreateConnection();
 
-      // Check if we have a table
       var columnInfo = await _db.GetTableInfoAsync("DummyTable");
 
+      // Act
       if (columnInfo != null && columnInfo.Count == 0)
       {
         // Consider..  <..>(CreateFlags.AllImplicit).Wait();
         _db.CreateTableAsync<DummyTable>().Wait();
       }
 
-      // Make somthing to put in
       var item = new DummyTable {
         // Id = 999,
         IdGuid = "B7B18CA9-38B8-4BD9-B1ED-095FD2E1287B",
@@ -73,18 +73,22 @@ namespace Xeno.LiteMigrator.SystemTests.Specs.SqliteNetPclTests
 
       var id = await _db.InsertAsync(item);
 
+      // Assert
       Assert.AreNotEqual(0, id);
+
+      var dummyItem = await GetItemAsync(id);
+      Assert.AreEqual(dummyItem.IdGuid, item.IdGuid, $"Incorrect guid for ItemId {id}");
 
       CloseConnection();
     }
 
     [TestMethod]
-    public async Task TableExistsTestAsync()
+    public async Task MemoryEmptyTableTestAsync()
     {
       CreateConnection();
 
-      // Don't rely on this test, it may run after the "create" tests
-      // It's just here to show a simple query of SQLite_Master table
+      _db.CreateTableAsync<DummyTable>().Wait();
+
       var items = await _db.QueryAsync<List<string>>
         ("SELECT name FROM sqlite_master WHERE type='table' AND name='DummyTable';");
       Assert.AreNotEqual(0, items);
@@ -112,9 +116,7 @@ namespace Xeno.LiteMigrator.SystemTests.Specs.SqliteNetPclTests
 
     private void CreateConnection()
     {
-      // string dbPath = ":memory:";
-      string dbPath = @"C:\temp\test.db";
-      _db = new SQLite.SQLiteAsyncConnection(dbPath);
+      _db = new SQLite.SQLiteAsyncConnection(_dbPath);
     }
 
     private Task<int> DeleteItemAsync(DummyTable item)

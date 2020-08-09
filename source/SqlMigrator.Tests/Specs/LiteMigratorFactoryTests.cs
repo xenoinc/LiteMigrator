@@ -6,6 +6,7 @@
  *  LiteMigrator Factory Tests
  */
 
+using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Xeno.LiteMigrator.SystemTests.Specs
@@ -22,7 +23,8 @@ namespace Xeno.LiteMigrator.SystemTests.Specs
     public void GetMigrationScriptNamedTest()
     {
       // Arrange
-      var migrator = new LiteMigration(_baseNamespace);
+      var resourceAssm = Assembly.GetExecutingAssembly();
+      var migrator = new LiteMigration(resourceAssm, _baseNamespace);
 
       // Act
       string ns = migrator.Migrations.GetResourceNamed(_scriptName);
@@ -37,7 +39,8 @@ namespace Xeno.LiteMigrator.SystemTests.Specs
     [TestMethod]
     public void GetMigrationScriptTest()
     {
-      var migrator = new LiteMigration(_baseNamespace);
+      var assm = Assembly.GetExecutingAssembly();
+      var migrator = new LiteMigration(assm, _baseNamespace);
 
       // Sample: "Xeno.MyProject.Client.Business.Migrations.201909150000-BaseDDL.sql"
       bool success = migrator.Migrations.GetMigrationScriptByName(_script001, out string data);
@@ -50,7 +53,8 @@ namespace Xeno.LiteMigrator.SystemTests.Specs
     [TestMethod]
     public void GetMigrationScriptVerionTest()
     {
-      var migrator = new LiteMigration(_baseNamespace);
+      var resourceAssm = Assembly.GetExecutingAssembly();
+      var migrator = new LiteMigration(resourceAssm, _baseNamespace);
 
       var results = migrator.Migrations.GetMigrationScriptByVersion(_scriptRevision, out string sql);
 
@@ -64,7 +68,8 @@ namespace Xeno.LiteMigrator.SystemTests.Specs
     public void GetResourceNamedTest()
     {
       // Arrange
-      var migrator = new LiteMigration(_baseNamespace);
+      var resourceAssm = Assembly.GetExecutingAssembly();
+      var migrator = new LiteMigration(resourceAssm, _baseNamespace);
 
       // Act
       string data = migrator.Migrations.GetResourceNamed(_scriptName);
@@ -78,20 +83,20 @@ namespace Xeno.LiteMigrator.SystemTests.Specs
     public void GetResourcesTests()
     {
       // Arrange
-      var migrator = new LiteMigration(_baseNamespace);
+      var migrator = new LiteMigration(Assembly.GetExecutingAssembly(), _baseNamespace);
 
       // Act
       var items = migrator.Migrations.GetResources();
 
       // Assert
-      System.Diagnostics.Debug.Print("==============");
+      System.Diagnostics.Debug.Print("======================");
       System.Diagnostics.Debug.Print("===[ GetResourcesTests");
       foreach (var item in items)
       {
         System.Diagnostics.Debug.Print("==> " + item);
       }
 
-      Assert.IsTrue(items.Count > 0);
+      Assert.IsTrue(items.Count > 0, $"Not migration scripts found in namespace, '{_baseNamespace}'");
     }
 
     [TestMethod]
@@ -99,7 +104,7 @@ namespace Xeno.LiteMigrator.SystemTests.Specs
     {
       // Arrange
       long oldVer = 0;
-      var migrator = new LiteMigration(_baseNamespace);
+      var migrator = new LiteMigration(Assembly.GetExecutingAssembly(), _baseNamespace);
 
       // Act
       var items = migrator.Migrations.GetSortedMigrations();
@@ -107,13 +112,19 @@ namespace Xeno.LiteMigrator.SystemTests.Specs
       // Assert
       System.Diagnostics.Debug.Print("==============");
       System.Diagnostics.Debug.Print("===[ GetSortedMigrationsTest");
+
+      bool found = false;
+
       foreach (var item in items)
       {
         Assert.IsTrue(item.Key > oldVer);
         oldVer = item.Key;
 
         System.Diagnostics.Debug.Print($"==> version: '{item.Key}' Name: '{item.Value}");
+        found = true;
       }
+
+      Assert.IsTrue(found, "No migration scripts found");
     }
 
     [TestMethod]
@@ -121,7 +132,7 @@ namespace Xeno.LiteMigrator.SystemTests.Specs
     {
       // Arrange
       long oldVer = 0;
-      var migrator = new LiteMigration(_baseNamespace);
+      var migrator = new LiteMigration(Assembly.GetExecutingAssembly(), _baseNamespace);
 
       // Act
       var items = migrator.Migrations.GetSortedMigrations();
@@ -129,13 +140,19 @@ namespace Xeno.LiteMigrator.SystemTests.Specs
       // Assert
       System.Diagnostics.Debug.Print("==============");
       System.Diagnostics.Debug.Print("===[ GetSortedMigrationsTest");
+
+      bool found = false;
+
       foreach (var item in items)
       {
         Assert.IsTrue(item.Key > oldVer);
         oldVer = item.Key;
 
         System.Diagnostics.Debug.Print($"==> version: '{item.Key}' Name: '{item.Value}");
+        found = true;
       }
+
+      Assert.IsTrue(found, "No migration scripts found");
     }
   }
 }

@@ -11,20 +11,48 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using SQLitePCL;
 using Xeno.LiteMigrator.Versioning;
 
 namespace Xeno.LiteMigrator.Factory
 {
   public class MigrationFactory
   {
+    //// private string _baseAssemblyFile;
+
     public MigrationFactory()
     {
       BaseNamespace = GetType().Namespace;
+      BaseAssemblyFile = string.Empty;
     }
 
-    public MigrationFactory(string baseNamespace)
+    public MigrationFactory(string baseNamespace, string baseAssemblyFile = "")
     {
       BaseNamespace = baseNamespace;
+      BaseAssemblyFile = baseAssemblyFile;
+    }
+
+    public string BaseAssemblyFile { get; set; }
+
+    public Assembly BaseAssembly
+    {
+      get
+      {
+        var assm = Assembly.GetExecutingAssembly();
+        try
+        {
+          if (!string.IsNullOrEmpty(BaseAssemblyFile))
+          {
+            assm = Assembly.LoadFile(BaseAssemblyFile);
+          }
+        }
+        catch
+        {
+          System.Console.WriteLine($"Error loading assembly from file, '{BaseAssemblyFile}'");
+        }
+
+        return assm;
+      }
     }
 
     public string BaseNamespace { get; set; }
@@ -50,7 +78,7 @@ namespace Xeno.LiteMigrator.Factory
       string result = string.Empty;
       try
       {
-        var assembly = Assembly.GetExecutingAssembly();
+        var assembly = BaseAssembly; //// Assembly.GetExecutingAssembly();
         using (Stream stream = assembly.GetManifestResourceStream(resourcePath))
         using (StreamReader reader = new StreamReader(stream))
         {
@@ -81,7 +109,7 @@ namespace Xeno.LiteMigrator.Factory
       string resName = string.Empty;
       string fileName = string.Empty;
 
-      var assembly = Assembly.GetExecutingAssembly();
+      var assembly = BaseAssembly; //// Assembly.GetExecutingAssembly();
       var items = assembly.GetManifestResourceNames()
                           .Where(name => name.StartsWith(BaseNamespace));
 
@@ -116,7 +144,7 @@ namespace Xeno.LiteMigrator.Factory
     /// <returns>Full resource name.</returns>
     public string GetResourceNamed(string containingTitle, bool trimNamespace = true)
     {
-      var assembly = Assembly.GetExecutingAssembly();
+      var assembly = BaseAssembly; //// Assembly.GetExecutingAssembly();
       var item = assembly.GetManifestResourceNames()
                          .Where(name => name.StartsWith(BaseNamespace))
                          .Single(x => x.Contains(containingTitle));
@@ -129,7 +157,14 @@ namespace Xeno.LiteMigrator.Factory
 
     public List<string> GetResources()
     {
-      var assembly = Assembly.GetExecutingAssembly();
+      // All loaded assemblies
+      //// var assm1 = AppDomain.CurrentDomain.GetAssemblies();
+
+      // Old method:
+      //// var assembly = Assembly.GetExecutingAssembly();
+
+      var assembly = BaseAssembly;
+
       var items = assembly.GetManifestResourceNames()
                           .Where(name => name.StartsWith(BaseNamespace))
                           .ToList();
@@ -142,7 +177,7 @@ namespace Xeno.LiteMigrator.Factory
     /// <returns>Sorted dictionary of script namespace paths.</returns>
     public SortedDictionary<long, IMigration> GetSortedMigrations()
     {
-      var assembly = Assembly.GetExecutingAssembly();
+      var assembly = BaseAssembly; //// Assembly.GetExecutingAssembly();
       var items = assembly.GetManifestResourceNames();
 
       // TODO: Need to check if error and report why
