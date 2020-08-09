@@ -76,10 +76,10 @@ namespace Xeno.LiteMigrator
     ///   Initializes a new instance of the <see cref="LiteMigration"/> class.
     ///   Assumes using SQLite.
     /// </summary>
-    /// <param name="assm">Resource file with migration scripts.</param>
     /// <param name="databasePath">Path to the SQLite database.</param>
+    /// <param name="assm">Resource file with migration scripts.</param>
     /// <param name="baseNamespace">Namespace to scripts.</param>
-    public LiteMigration(Assembly assm, string databasePath, string baseNamespace)
+    public LiteMigration(string databasePath, Assembly assm, string baseNamespace)
       : this(databasePath, baseNamespace, DatabaseType.SQLite)
     {
       Migrations.BaseAssemblyFile = assm.Location;

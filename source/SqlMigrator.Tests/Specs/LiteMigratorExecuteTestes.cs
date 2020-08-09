@@ -41,7 +41,7 @@ namespace Xeno.LiteMigrator.SystemTests.Specs
       ClearVersionInfo();
 
       var resourceAssm = Assembly.GetExecutingAssembly();
-      var mig = new LiteMigration(resourceAssm, TempDatabasePath, _baseNamespace);
+      var mig = new LiteMigration(TempDatabasePath, resourceAssm, _baseNamespace);
 
       var allMigs = mig.Migrations.GetSortedMigrations();
       var missing = await mig.GetMissingMigrationsAsync();
@@ -64,7 +64,7 @@ namespace Xeno.LiteMigrator.SystemTests.Specs
       DeleteDatabase();
 
       var resourceAssm = Assembly.GetExecutingAssembly();
-      var mig = new LiteMigration(resourceAssm, TempDatabasePath, _baseNamespace);
+      var mig = new LiteMigration(TempDatabasePath, resourceAssm, _baseNamespace);
 
       var allMigs = mig.Migrations.GetSortedMigrations();
       var missing = await mig.GetMissingMigrationsAsync();
