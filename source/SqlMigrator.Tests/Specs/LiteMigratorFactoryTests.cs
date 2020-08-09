@@ -39,12 +39,12 @@ namespace Xeno.LiteMigrator.SystemTests.Specs
     {
       var migrator = new LiteMigration(_baseNamespace);
 
-      // Sample: "Xeno.Pos.Client.Business.Migrations.201909150000-BaseDDL.sql"
+      // Sample: "Xeno.MyProject.Client.Business.Migrations.201909150000-BaseDDL.sql"
       bool success = migrator.Migrations.GetMigrationScriptByName(_script001, out string data);
 
       Assert.IsTrue(success);
       Assert.IsNotNull(data);
-      Assert.IsTrue(data.Length > 0);
+      Assert.IsTrue(data.Length > 0, "Could not read migration script");
     }
 
     [TestMethod]
