@@ -36,6 +36,7 @@ namespace SqlMigrator.SystemTests.Specs.SqliteNetPclTests
     [TestMethod]
     public void ConnectionTest()
     {
+      // string dbPath = ":memory:";
       string dbPath = @"C:\temp\test.db";
 
       if (System.IO.File.Exists(dbPath))
@@ -50,7 +51,7 @@ namespace SqlMigrator.SystemTests.Specs.SqliteNetPclTests
     }
 
     [TestMethod]
-    public async Task TableCreateTest()
+    public async Task TableCreateTestAsync()
     {
       CreateConnection();
 
@@ -80,7 +81,7 @@ namespace SqlMigrator.SystemTests.Specs.SqliteNetPclTests
     }
 
     [TestMethod]
-    public async Task TableExistsTest()
+    public async Task TableExistsTestAsync()
     {
       CreateConnection();
 
@@ -113,6 +114,7 @@ namespace SqlMigrator.SystemTests.Specs.SqliteNetPclTests
 
     private void CreateConnection()
     {
+      // string dbPath = ":memory:";
       string dbPath = @"C:\temp\test.db";
       _db = new SQLite.SQLiteAsyncConnection(dbPath);
     }
