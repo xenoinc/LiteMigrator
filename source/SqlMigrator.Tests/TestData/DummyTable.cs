@@ -9,7 +9,7 @@
 using System;
 using SQLite;
 
-namespace SqlMigrator.SystemTests.TestData
+namespace Xeno.LiteMigrator.SystemTests.TestData
 {
   public class DummyTable
   {

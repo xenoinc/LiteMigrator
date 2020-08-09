@@ -9,11 +9,10 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SqlMigrator.SystemTests.TestData;
+using Xeno.LiteMigrator.SystemTests.TestData;
 
-namespace SqlMigrator.SystemTests.Specs.SqliteNetPclTests
+namespace Xeno.LiteMigrator.SystemTests.Specs.SqliteNetPclTests
 {
-
   [TestClass]
   public class RawLocalDatabaseTest
   {
@@ -65,8 +64,7 @@ namespace SqlMigrator.SystemTests.Specs.SqliteNetPclTests
       }
 
       // Make somthing to put in
-      var item = new DummyTable
-      {
+      var item = new DummyTable {
         // Id = 999,
         IdGuid = "B7B18CA9-38B8-4BD9-B1ED-095FD2E1287B",
         Name = "Item-Test1",
