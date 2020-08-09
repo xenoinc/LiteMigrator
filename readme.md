@@ -12,7 +12,28 @@ Sponsored by [Xeno Innovations](https://xenoinc.com), this project was made with
 Currently, we recommend you add this to your project using Git's submodule so you always get the latest.
 
 ## Sample Migration
+Detailed instructions can be found on the [Using LiteMigrator](https://github.com/xenoinc/SQLiteMigrator/wiki/Using-LiteMigrator) wiki page.
 
+1. Add **LiteMigrator** project to your solution
+2. Create a folder in your solution to hold the scripts
+3. Add SQL files as **Embedded Resources**
+  * You must use the naming convention, "_YYYYMMDDhhmm-FileName.sql_"
+4. Wire-up the controller
+
+```cs
+public async Task InstallMigrationsAsync()
+{
+  // Your EXE/DLL with the scripts
+  var resourceAssm = Assembly.GetExecutingAssembly();
+  var dbPath = @"C:\TEMP\MyDatabase.db3";
+  var migsNamespace = "MyProjNamespace.Scripts";
+  
+  var liteMig = new LiteMigration(resourceAssm, dbPath, migsNamespace);
+  bool = success = await liteMig.MigrateUpAsync();
+}
+```
+
+### Step 1 - Add migration 
 
 ## How to Contribute
 1. Fork on GitHub
