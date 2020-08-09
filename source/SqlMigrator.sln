@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29209.62
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SqlMigrator", "SqlMigrator\SqlMigrator.csproj", "{C96B0D25-5AA2-421E-983B-44CBFFE82129}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xeno.LiteMigrator", "SqlMigrator\Xeno.LiteMigrator.csproj", "{C96B0D25-5AA2-421E-983B-44CBFFE82129}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlMigrator.SystemTests", "SqlMigrator.Tests\SqlMigrator.SystemTests.csproj", "{EF065792-4818-4B3F-AF82-2347F67A6ABB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xeno.LiteMigrator.SystemTests", "SqlMigrator.Tests\Xeno.LiteMigrator.SystemTests.csproj", "{EF065792-4818-4B3F-AF82-2347F67A6ABB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{157447EB-A133-4D28-8722-C5FD04367688}"
 EndProject
