@@ -72,7 +72,7 @@ TestResult.xml
 
 
 ## USER DEFINED
-
+/source/TestResults
 /docs/*.csv
 /docs/backup
 /tests

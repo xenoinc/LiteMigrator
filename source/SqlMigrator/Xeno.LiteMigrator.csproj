@@ -4,6 +4,19 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Xeno.LiteMigrator</AssemblyName>
     <RootNamespace>Xeno.LiteMigrator</RootNamespace>
+    <Authors>Damian Suess</Authors>
+    <Company>Xeno Innovations</Company>
+    <Description>LiteMigrator is a tiny SQLite Migration framework for crossplatform projects. Go Xamarin!</Description>
+    <Copyright>Copyright 2020 Xeno Innovations, Inc.</Copyright>
+    <Product>LiteMigrator</Product>
+    <PackageTags>LiteMigrator, sqlite, lite migrator, light migrator, xamarin, fluent migrator, database migration</PackageTags>
+    <PackageProjectUrl>https://github.com/xenoinc/LiteMigrator</PackageProjectUrl>
+    <PackageIcon>logo.png</PackageIcon>
+    <RepositoryUrl>https://github.com/xenoinc/LiteMigrator</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageReleaseNotes>Basic sqlite migration utility</PackageReleaseNotes>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageLicenseFile>license.txt</PackageLicenseFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -20,6 +33,17 @@
 
   <ItemGroup>
     <PackageReference Include="sqlite-net-pcl" Version="1.7.335" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\docs\logo.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="..\..\license.txt">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
