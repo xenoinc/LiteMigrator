@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Threading.Tasks;
 using SQLite;
 using Xeno.LiteMigrator.DataObjects;
@@ -51,6 +52,18 @@ namespace Xeno.LiteMigrator
     ///   Initializes a new instance of the <see cref="LiteMigration"/> class.
     ///   Assumes in-memory database and the current namespace contains the scripts.
     /// </summary>
+    /// <param name="assm">Resource file with migration scripts.</param>
+    /// <param name="baseNamespace">Assembly path to migration scripts.</param>
+    public LiteMigration(Assembly assm, string baseNamespace)
+      : this(InMemoryDatabase, baseNamespace, DatabaseType.SQLite)
+    {
+      Migrations.BaseAssemblyFile = assm.Location;
+    }
+
+    /// <summary>
+    ///   Initializes a new instance of the <see cref="LiteMigration"/> class.
+    ///   Assumes in-memory database and the current namespace contains the scripts.
+    /// </summary>
     /// <param name="databaseType">Type of database connection.</param>
     public LiteMigration(DatabaseType databaseType)
       : this(InMemoryDatabase, string.Empty, databaseType)
@@ -63,11 +76,13 @@ namespace Xeno.LiteMigrator
     ///   Initializes a new instance of the <see cref="LiteMigration"/> class.
     ///   Assumes using SQLite.
     /// </summary>
+    /// <param name="assm">Resource file with migration scripts.</param>
     /// <param name="databasePath">Path to the SQLite database.</param>
     /// <param name="baseNamespace">Namespace to scripts.</param>
-    public LiteMigration(string databasePath, string baseNamespace)
+    public LiteMigration(Assembly assm, string databasePath, string baseNamespace)
       : this(databasePath, baseNamespace, DatabaseType.SQLite)
     {
+      Migrations.BaseAssemblyFile = assm.Location;
     }
 
     /// <summary>
@@ -76,7 +91,7 @@ namespace Xeno.LiteMigrator
     /// <param name="databasePath">Path to the SQLite database.</param>
     /// <param name="baseNamespace">Namespace to scripts.</param>
     /// <param name="databaseType">Type of database connection.</param>
-    public LiteMigration(string databasePath, string baseNamespace, DatabaseType databaseType)
+    public LiteMigration(string databasePath, string baseNamespace, DatabaseType databaseType, string baseAssembly = "")
     {
       ////RevisionTable = nameof(VersionInfo);  // FUTURE
       // Set to current namespace, it's a something
@@ -86,12 +101,16 @@ namespace Xeno.LiteMigrator
       // Create version info table here
       // Initialize().Wait();
       Migrations = new MigrationFactory();
+      Migrations.BaseAssemblyFile = baseAssembly;
       Migrations.BaseNamespace = baseNamespace;
 
       switch (databaseType)
       {
         case DatabaseType.SQLiteCipher:
           _sqlEngine = new Engines.SqlitePclEngine();
+
+          // In-testing
+          //// _sqlEngine = new Engines.SqlcipherEngine();
           break;
 
         case DatabaseType.SQLite:

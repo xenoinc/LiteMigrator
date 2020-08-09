@@ -6,6 +6,7 @@
  *  Migration execution tests
  */
 
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SQLite;
@@ -21,6 +22,13 @@ namespace Xeno.LiteMigrator.SystemTests.Specs
   {
     private readonly string _baseNamespace = "Xeno.LiteMigrator.SystemTests.TestData.Scripts";
 
+    public override void CleanupBeforeTest()
+    {
+      base.CleanupBeforeTest();
+
+      DeleteDatabase();
+    }
+
     /// <summary>
     ///   Gets list of migrations not applied yet
     /// </summary>
@@ -31,7 +39,9 @@ namespace Xeno.LiteMigrator.SystemTests.Specs
       // Get not installed scripts.
       // returns sorted list of IMigration with namespace path to resource
       ClearVersionInfo();
-      var mig = new LiteMigration(TempDatabasePath, _baseNamespace);
+
+      var resourceAssm = Assembly.GetExecutingAssembly();
+      var mig = new LiteMigration(resourceAssm, TempDatabasePath, _baseNamespace);
 
       var allMigs = mig.Migrations.GetSortedMigrations();
       var missing = await mig.GetMissingMigrationsAsync();
@@ -52,7 +62,9 @@ namespace Xeno.LiteMigrator.SystemTests.Specs
     public async Task InstallMigrationsTestAsync()
     {
       DeleteDatabase();
-      var mig = new LiteMigration(TempDatabasePath, _baseNamespace);
+
+      var resourceAssm = Assembly.GetExecutingAssembly();
+      var mig = new LiteMigration(resourceAssm, TempDatabasePath, _baseNamespace);
 
       var allMigs = mig.Migrations.GetSortedMigrations();
       var missing = await mig.GetMissingMigrationsAsync();
