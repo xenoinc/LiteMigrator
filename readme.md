@@ -27,13 +27,13 @@ public async Task InstallMigrationsAsync()
   var resourceAssm = Assembly.GetExecutingAssembly();
   var dbPath = @"C:\TEMP\MyDatabase.db3";
   var migsNamespace = "MyProjNamespace.Scripts";
-  
-  var liteMig = new LiteMigration(resourceAssm, dbPath, migsNamespace);
+
+  var liteMig = new LiteMigration(dbPath, resourceAssm, migsNamespace);
   bool = success = await liteMig.MigrateUpAsync();
 }
 ```
 
-### Step 1 - Add migration 
+### Step 1 - Add migration
 
 ## How to Contribute
 1. Fork on GitHub
