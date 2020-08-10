@@ -176,10 +176,10 @@ namespace Xeno.LiteMigrator
 
     #region Migration Scripts
 
+    [Obsolete("Use, VersionInitializeAsync()")]
     public void CreateBaseFramework()
     {
-      // Check if VersionInfo table exists
-      // and create it if not
+      // Check if VersionInfo table exists and create it if not
       throw new NotImplementedException();
     }
 
@@ -401,17 +401,31 @@ namespace Xeno.LiteMigrator
     /// <returns>Sorted list of migration scripts</returns>
     public async Task<SortedDictionary<long, IVersionInfo>> GetInstalledMigrationsAsync()
     {
-      SQLiteAsyncConnection db = new SQLiteAsyncConnection(DatabasePath);
-      var list = await db.Table<VersionInfo>().ToListAsync();
-      await db.CloseAsync();
-
       var sorted = new SortedDictionary<long, IVersionInfo>();
-      foreach (VersionInfo item in list)
-      {
-        sorted.Add(item.VersionNumber, item);
 
-        Versions.AddItem(item.VersionNumber);
+      try
+      {
+        SQLiteAsyncConnection db = new SQLiteAsyncConnection(DatabasePath);
+        var list = await db.Table<VersionInfo>().ToListAsync();
+        await db.CloseAsync();
+
+        foreach (VersionInfo item in list)
+        {
+          sorted.Add(item.VersionNumber, item);
+
+          Versions.AddItem(item.VersionNumber);
+        }
       }
+      catch(SQLiteException ex)
+      {
+        // Chances are, the VersionInfo table is not initialized
+        // This can happen when using the ":memory:" database
+
+        System.Diagnostics.Debug.WriteLine("[Error] [GetInstalledMigrationsAsync] " + ex.Message);
+
+        await VersionInitializeAsync();
+      }
+
 
       return sorted;
     }
@@ -466,7 +480,7 @@ namespace Xeno.LiteMigrator
       }
       catch (Exception ex)
       {
-        System.Diagnostics.Debug.WriteLine("ERROR: " + ex.Message);
+        System.Diagnostics.Debug.WriteLine("[Error] [VersionInitialize] " + ex.Message);
       }
     }
 
@@ -482,7 +496,7 @@ namespace Xeno.LiteMigrator
       }
       catch (Exception ex)
       {
-        System.Diagnostics.Debug.WriteLine("ERROR: " + ex.Message);
+        System.Diagnostics.Debug.WriteLine("[Error] [VersionInitialize] " + ex.Message);
       }
     }
 

@@ -85,9 +85,10 @@ namespace Xeno.LiteMigrator.Factory
           result = reader.ReadToEnd();
         }
       }
-      catch (Exception)
+      catch (Exception ex)
       {
         // throw invalid namespace error?
+        System.Diagnostics.Debug.WriteLine("[Error] [GetMigrationScriptByResource] " + ex.Message);
       }
 
       return result;
