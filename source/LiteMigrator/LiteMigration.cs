@@ -119,7 +119,9 @@ namespace Xeno.LiteMigrator
           break;
       }
 
-      VersionInitializeAsync().Wait();
+      //// Task.Run(async () => await VersionInitializeAsync());
+      VersionInitialize();
+
       _isInitialized = true;
     }
 
@@ -344,6 +346,7 @@ namespace Xeno.LiteMigrator
       // Maybe use Lazy loading?
       ////Versions = new VersionFactory();
       ////Versions.Initialize();
+
       await VersionInitializeAsync();
 
       return true;
@@ -449,6 +452,22 @@ namespace Xeno.LiteMigrator
 
       // Cache up what was saved
       AddVersion(migration);
+    }
+
+    public void VersionInitialize()
+    {
+      try
+      {
+        Versions = new Versions();
+
+        SQLiteAsyncConnection db = new SQLiteAsyncConnection(DatabasePath);
+        db.CreateTableAsync<VersionInfo>();
+        db.CloseAsync();
+      }
+      catch (Exception ex)
+      {
+        System.Diagnostics.Debug.WriteLine("ERROR: " + ex.Message);
+      }
     }
 
     public async Task VersionInitializeAsync()

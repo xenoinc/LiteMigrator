@@ -2,12 +2,12 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("SqlMigrator.Tests")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("LiteMigrator.Tests")]
+[assembly: AssemblyDescription("LiteMigrator System Tests")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("SqlMigrator.Tests")]
-[assembly: AssemblyCopyright("Copyright ©  2019")]
+[assembly: AssemblyCompany("Xeno Innovations")]
+[assembly: AssemblyProduct("LiteMigrator.Tests")]
+[assembly: AssemblyCopyright("Copyright © Xeno Innovations, Inc. 2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
