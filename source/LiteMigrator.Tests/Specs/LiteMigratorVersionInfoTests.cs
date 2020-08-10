@@ -6,7 +6,10 @@
  *  LiteMigrator Tests
  *
  * Note:
- *  Cannot always perform in-memory tests ":memory:" because we're creating multiple connections in these tests
+ * 1. These tests are flaky and need updated. A database may not be created
+ *    or closed in-time when the next execution occurs.
+ * 2. Cannot always perform in-memory tests ":memory:" because we're creating
+ *    multiple connections in these tests.
  */
 
 using System.Threading.Tasks;
@@ -57,18 +60,21 @@ namespace Xeno.LiteMigrator.SystemTests.Specs
     public async Task VersionInfoCanCreateTableTestAsync()
     {
       // Arrange (as an in-memory database)
+      //// var mig = new LiteMigration(TempDatabasePath, Assembly.GetExecutingAssembly(), "");
       var mig = new LiteMigration() {
         // Act
         // Note: Changing the DB post-constructor will force the system to reinitialize the DB
         DatabasePath = TempDatabasePath
       };
 
+      await Task.Delay(100).ConfigureAwait(false);
+
       // Assert
       SQLiteAsyncConnection db = new SQLiteAsyncConnection(TempDatabasePath);
       var columnInfo = await db.GetTableInfoAsync(nameof(VersionInfo));
       await db.CloseAsync();
 
-      Assert.AreNotEqual(0, columnInfo.Count);
+      Assert.AreNotEqual(0, columnInfo.Count, "VersionInfo table was not created.");
     }
 
     [TestMethod]
@@ -86,10 +92,10 @@ namespace Xeno.LiteMigrator.SystemTests.Specs
       var list = await mig.GetInstalledMigrationsAsync();
 
       // Assert
-      Assert.AreEqual(3, list.Count);
-      Assert.IsTrue(list.ContainsKey(199609081025));
-      Assert.IsTrue(list.ContainsKey(201912312359));
-      Assert.IsTrue(list.ContainsKey(202512312359));
+      Assert.AreEqual(3, list.Count, "Expected 3 registered items");
+      Assert.IsTrue(list.ContainsKey(199609081025), "Missing Migration, 'When it all began'");
+      Assert.IsTrue(list.ContainsKey(201912312359), "Missing Migration, 'Some update'");
+      Assert.IsTrue(list.ContainsKey(202512312359), "Missing Migration, 'LTS update'");
     }
 
     private async Task AddVersionInfoForTestsAsync(SQLiteAsyncConnection db, LiteMigration mig)

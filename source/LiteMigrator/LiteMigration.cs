@@ -119,8 +119,10 @@ namespace Xeno.LiteMigrator
           break;
       }
 
-      //// Task.Run(async () => await VersionInitializeAsync());
+      // The next operation may begin before this is finished being created
       VersionInitialize();
+
+      //// Task.Run(async () => await VersionInitializeAsync().ConfigureAwait(false));
 
       _isInitialized = true;
     }
@@ -160,7 +162,13 @@ namespace Xeno.LiteMigrator
 
         // We should reinitialize if our database path has changed
         if (_isInitialized)
-          ReinitializeAsync().Wait();
+        {
+          // Should use Reinitialize to check for validations
+          //// Task.Run(async () => await ReinitializeAsync().ConfigureAwait(false));
+          //// ReinitializeAsync();
+
+          VersionInitialize();
+        }
       }
     }
 
@@ -416,16 +424,19 @@ namespace Xeno.LiteMigrator
           Versions.AddItem(item.VersionNumber);
         }
       }
-      catch(SQLiteException ex)
+      catch (SQLiteException ex)
       {
-        // Chances are, the VersionInfo table is not initialized
-        // This can happen when using the ":memory:" database
+        // Causes of failure:
+        //  1) VersionInfo table doesn't exist. This can happen when using the ":memory:" database
+        //  2) Database is locked - command already in progress
 
         System.Diagnostics.Debug.WriteLine("[Error] [GetInstalledMigrationsAsync] " + ex.Message);
 
-        await VersionInitializeAsync();
-      }
+        LastError = ex.Message;
 
+        // Consider: Just in-case, lets make sure we have a DB
+        // await VersionInitializeAsync();
+      }
 
       return sorted;
     }
