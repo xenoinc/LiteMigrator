@@ -93,7 +93,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SqlMigrator\Xeno.LiteMigrator.csproj">
+    <ProjectReference Include="..\LiteMigrator\Xeno.LiteMigrator.csproj">
       <Project>{c96b0d25-5aa2-421e-983b-44cbffe82129}</Project>
       <Name>Xeno.LiteMigrator</Name>
     </ProjectReference>
