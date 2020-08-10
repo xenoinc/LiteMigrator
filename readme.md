@@ -2,12 +2,16 @@
 
 <img align="right" width="90" height="90" src="https://raw.githubusercontent.com/xenoinc/SQLiteMigrator/master/docs/logo.png">LiteMigrator is a tiny cross-platform SQLite migration framework for Xamarin (_.NET Standard_) inspired by [Fluent Migrator](https://github.com/fluentmigrator/fluentmigrator). This framework was built for use with Xamarin 🐒 projects, so it needs to be quick, simple and reliable when managing databases
 
+[![](https://img.shields.io/nuget/v/Xeno.LiteMigrator?color=blue)](https://www.nuget.org/packages/Xeno.LiteMigrator/)
+
 Sponsored by [Xeno Innovations](https://xenoinc.com), this project was made with nerd-love.
 
-**_This project is a Work in Progress_**
+**_This project is currently in beta_**
+
+Check out the sample project's source code [LiteMigrator.Sample](https://github.com/xenoinc/LiteMigrator.Sample)
 
 ## Use it in your project
-⚠️ This is in beta - _NuGet package coming soon_, so we need your help to make this project better!
+Get [LiteMigrator](https://www.nuget.org/packages/Xeno.LiteMigrator) on NuGet today!
 
 Currently, we recommend you add this to your project using Git's submodule so you always get the latest.
 
@@ -34,6 +38,8 @@ public async Task InstallMigrationsAsync()
 ```
 
 ## How to Contribute
+Give it a test drive and support making LiteMigrator better :)
+
 1. Fork on GitHub
 2. Create a branch
 3. Code (_and add tests)
