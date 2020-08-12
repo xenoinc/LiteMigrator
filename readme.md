@@ -9,9 +9,19 @@ Sponsored by [Xeno Innovations](https://xenoinc.com), this project was made with
 
 **_This project is currently in beta_**
 
+## Supported Platforms
+
 Check out the sample project's source code [LiteMigrator.Sample](https://github.com/xenoinc/LiteMigrator.Sample)
 
-## Use it in your project
+| Platform | Status |
+|----------|--------|
+| Android  | Yes
+| UWP      | _In-progress_
+| iOS      | _Needs Verified_
+
+Contribute today and get your platform supported 👍
+
+## How to use it
 Get [LiteMigrator](https://www.nuget.org/packages/Xeno.LiteMigrator) on NuGet today!
 
 Currently, we recommend you add this to your project using Git's submodule so you always get the latest.
@@ -50,5 +60,5 @@ Give it a test drive and support making LiteMigrator better :)
 5. Get the PR merged
 6. Welcome to our contributors' list!
 
-## Known Limitations
+This project could use your assistance to crush limitation
 Please visit the [Known Limitations](https://github.com/xenoinc/SQLiteMigrator/wiki/Known-Limitations) wiki page
