@@ -58,9 +58,8 @@ bld/
 *.VisualState.xml
 TestResult.xml
 
-# Installer Folder
-/installer/*.exe
-!/installer/autorun.exe
+# NuGet
+/nuget/*.exe
 
 # Lib folder
 /lib/*
