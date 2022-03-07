@@ -5,22 +5,16 @@
   //
   // https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/EnableConfiguration.md
   //
-  // TODO:
-  //  Add styles: SA1201 and SA1203 for class Ordering Rules
 
   "$schema": "https://raw.githubusercontent.com/DotNetAnalyzers/StyleCopAnalyzers/master/StyleCop.Analyzers/StyleCop.Analyzers/Settings/stylecop.schema.json",
   "settings": {
     "documentationRules": {
-      "companyName": "PlaceholderCompany"
+      "companyName": "Xeno Innovations, Inc.",
+      "copyrightText": "Copyright (c) {companyName}. All rights reserved.\r\n\r\nReproduction or transmission in whole or in part, in\r\nany form or by any means, electronic, mechanical, or otherwise, is\r\nprohibited without the prior written consent of the copyright owner."
     },
     "orderingRules": {
       "systemUsingDirectivesFirst": true,
       "usingDirectivesPlacement": "outsideNamespace"
-    },
-    "indentation": {
-      "indentationSize": 2,
-      "tabSize": 2,
-      "useTabs": false
     },
     "layoutRules": {
       "allowConsecutiveUsings": false,

@@ -20,7 +20,7 @@ using Xeno.LiteMigrator.Versioning;
 
 namespace Xeno.LiteMigrator.SystemTests.Specs
 {
-  /// <summary>LiteMigrator Tests</summary>
+  /// <summary>LiteMigrator Tests.</summary>
   [TestCategory("Database")]
   [TestClass]
   public class LiteMigratorVersionInfoTests : BaseTest
@@ -28,9 +28,9 @@ namespace Xeno.LiteMigrator.SystemTests.Specs
     private TestContext _context;
 
     /// <summary>
-    ///Gets or sets the test context which provides
-    ///information about and functionality for the current test run.
-    ///</summary>
+    /// Gets or sets the test context which provides
+    /// information about and functionality for the current test run.
+    /// </summary>
     public TestContext TestContext
     {
       get => _context;
@@ -61,10 +61,11 @@ namespace Xeno.LiteMigrator.SystemTests.Specs
     {
       // Arrange (as an in-memory database)
       //// var mig = new LiteMigration(TempDatabasePath, Assembly.GetExecutingAssembly(), "");
-      var mig = new LiteMigration() {
+      var mig = new LiteMigration()
+      {
         // Act
         // Note: Changing the DB post-constructor will force the system to reinitialize the DB
-        DatabasePath = TempDatabasePath
+        DatabasePath = TempDatabasePath,
       };
 
       await Task.Delay(100).ConfigureAwait(false);

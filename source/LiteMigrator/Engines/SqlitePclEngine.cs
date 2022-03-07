@@ -41,7 +41,6 @@ namespace Xeno.LiteMigrator.Engines
       ////}
 
       throw new System.NotImplementedException();
-      return false;
     }
 
     /// <summary>Execute a specific migration script if it doesn't exist.</summary>

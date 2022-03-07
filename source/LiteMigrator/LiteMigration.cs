@@ -18,14 +18,13 @@ using Xeno.LiteMigrator.Versioning;
 
 namespace Xeno.LiteMigrator
 {
-  public class LiteMigration
+  /// <summary>LiteMigration core system.</summary>
+  public partial class LiteMigration
   {
     private const string InMemoryDatabase = ":memory:";
     private string _databasePath = string.Empty;
     private bool _isInitialized = false;
     private IEngine _sqlEngine;
-
-    #region Constructors
 
     /// <summary>
     ///   Initializes a new instance of the <see cref="LiteMigration"/> class.
@@ -91,6 +90,7 @@ namespace Xeno.LiteMigrator
     /// <param name="databasePath">Path to the SQLite database.</param>
     /// <param name="baseNamespace">Namespace to scripts.</param>
     /// <param name="databaseType">Type of database connection.</param>
+    /// <param name="baseAssembly">Migration's base assembly name.</param>
     public LiteMigration(string databasePath, string baseNamespace, DatabaseType databaseType, string baseAssembly = "")
     {
       ////RevisionTable = nameof(VersionInfo);  // FUTURE
@@ -126,10 +126,6 @@ namespace Xeno.LiteMigrator
 
       _isInitialized = true;
     }
-
-    public string LastError { get; set; }
-
-    #endregion Constructors
 
     public string BaseNamespace
     {
@@ -174,6 +170,8 @@ namespace Xeno.LiteMigrator
 
     public DatabaseType DatabaseType { get; set; }
 
+    public string LastError { get; set; }
+
     public MigrationFactory Migrations { get; private set; }
 
     //// FUTURE: Consider adding this feature one day
@@ -181,9 +179,11 @@ namespace Xeno.LiteMigrator
     //// public string RevisionTable { get; set; }
 
     ////public VersionFactory Versions { get; private set; }
+  }
 
-    #region Migration Scripts
-
+  /// <summary>LiteMigration, migration scripts.</summary>
+  public partial class LiteMigration
+  {
     [Obsolete("Use, VersionInitializeAsync()")]
     public void CreateBaseFramework()
     {
@@ -359,11 +359,11 @@ namespace Xeno.LiteMigrator
 
       return true;
     }
+  }
 
-    #endregion Migration Scripts
-
-    #region Version Factory
-
+  /// <summary>Version Factory of LiteMigration.</summary>
+  public partial class LiteMigration
+  {
     /// <summary>Gets or sets the list of applied migrations.</summary>
     /// <value>The list of applied migrations.</value>
     public Versions Versions { get; set; }
@@ -404,9 +404,9 @@ namespace Xeno.LiteMigrator
     }
 
     /// <summary>
-    ///   Read from database the list of installed migration scripts
+    ///   Read from database the list of installed migration scripts.
     /// </summary>
-    /// <returns>Sorted list of migration scripts</returns>
+    /// <returns>Sorted list of migration scripts.</returns>
     public async Task<SortedDictionary<long, IVersionInfo>> GetInstalledMigrationsAsync()
     {
       var sorted = new SortedDictionary<long, IVersionInfo>();
@@ -429,7 +429,6 @@ namespace Xeno.LiteMigrator
         // Causes of failure:
         //  1) VersionInfo table doesn't exist. This can happen when using the ":memory:" database
         //  2) Database is locked - command already in progress
-
         System.Diagnostics.Debug.WriteLine("[Error] [GetInstalledMigrationsAsync] " + ex.Message);
 
         LastError = ex.Message;
@@ -510,7 +509,5 @@ namespace Xeno.LiteMigrator
         System.Diagnostics.Debug.WriteLine("[Error] [VersionInitialize] " + ex.Message);
       }
     }
-
-    #endregion Version Factory
   }
 }

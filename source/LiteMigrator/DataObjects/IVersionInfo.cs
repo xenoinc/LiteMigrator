@@ -1,4 +1,7 @@
-﻿/* Copyright Xeno Innovations, Inc. 2019
+﻿/* <copyright file="IVersionInfo.cs" company="Xeno Innovations, Inc.">
+ * Copyright (c) Xeno Innovations, Inc. All rights reserved.
+ * </copyright>
+ *
  * Date:    2019-9-28
  * Author:  Damian Suess
  * File:    IVersionInfo.cs
