@@ -58,7 +58,7 @@ namespace Xeno.LiteMigrator.Factory
     }
 
     /// <summary>Gets total lines in main script value.</summary>
-    /// <value>Total lines in script</value>
+    /// <value>Total lines in script.</value>
     public int TotalLines { get; private set; }
 
     public void ClearCommand()
@@ -133,7 +133,6 @@ namespace Xeno.LiteMigrator.Factory
 
     public bool IsCommand(string query)
     {
-      bool isCommand = false;
       string clean = Regex.Replace(query, @"\t|\n|\r", string.Empty);
 
       if (string.IsNullOrWhiteSpace(clean))

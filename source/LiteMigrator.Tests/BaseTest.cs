@@ -18,7 +18,7 @@ namespace Xeno.LiteMigrator.SystemTests
 
     public BaseTest()
     {
-      //  Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)
+      // Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)
       var pth = Path.GetTempPath();
       TempDatabasePath = Path.Combine(pth, $"POS-TEST-{System.Guid.NewGuid()}.db3");
     }
@@ -76,7 +76,9 @@ namespace Xeno.LiteMigrator.SystemTests
     public void DeleteDatabase()
     {
       if (System.IO.File.Exists(TempDatabasePath))
+      {
         System.IO.File.Delete(TempDatabasePath);
+      }
     }
   }
 }
