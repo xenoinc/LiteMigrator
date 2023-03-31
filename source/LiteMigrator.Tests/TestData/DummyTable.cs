@@ -13,7 +13,8 @@ namespace Xeno.LiteMigrator.SystemTests.TestData
 {
   public class DummyTable
   {
-    [PrimaryKey, AutoIncrement]
+    [PrimaryKey]
+    [AutoIncrement]
     public int Id { get; set; }
 
     public string IdGuid { get; set; }

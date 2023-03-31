@@ -22,8 +22,8 @@ namespace Xeno.LiteMigrator.SystemTests.Specs.SqliteNetPclTests
 
     public RawLocalDatabaseTest()
     {
-      //string dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "ormdemo.db3");
-      //var db = new SQLiteConnection(dbPath);
+      // string dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "ormdemo.db3");
+      // var db = new SQLiteConnection(dbPath);
     }
 
     [TestMethod]
@@ -64,11 +64,12 @@ namespace Xeno.LiteMigrator.SystemTests.Specs.SqliteNetPclTests
         _db.CreateTableAsync<DummyTable>().Wait();
       }
 
-      var item = new DummyTable {
+      var item = new DummyTable
+      {
         // Id = 999,
         IdGuid = "B7B18CA9-38B8-4BD9-B1ED-095FD2E1287B",
         Name = "Item-Test1",
-        LastSyncDttm = new System.DateTime(),
+        LastSyncDttm = default(System.DateTime),
       };
 
       var id = await _db.InsertAsync(item);
@@ -77,7 +78,7 @@ namespace Xeno.LiteMigrator.SystemTests.Specs.SqliteNetPclTests
       Assert.AreNotEqual(0, id);
 
       var dummyItem = await GetItemAsync(id);
-      Assert.AreEqual(dummyItem.IdGuid, item.IdGuid, $"Incorrect guid for ItemId {id}");
+      Assert.AreEqual(dummyItem.IdGuid, item.IdGuid, $"Incorrect GUID for ItemId {id}");
 
       CloseConnection();
     }
@@ -89,8 +90,7 @@ namespace Xeno.LiteMigrator.SystemTests.Specs.SqliteNetPclTests
 
       _db.CreateTableAsync<DummyTable>().Wait();
 
-      var items = await _db.QueryAsync<List<string>>
-        ("SELECT name FROM sqlite_master WHERE type='table' AND name='DummyTable';");
+      var items = await _db.QueryAsync<List<string>>("SELECT name FROM sqlite_master WHERE type='table' AND name='DummyTable';");
       Assert.AreNotEqual(0, items);
 
       // Returns column names and info
