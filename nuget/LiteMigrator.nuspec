@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Xeno.LiteMigrator</id>
+    <version>0.5.0.2</version>
+    <title>LiteMigrator</title>
+    <authors>Damian Suess</authors>
+    <owners>xenoinc</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="file">license.txt</license>
+    <icon>logo.png</icon>
+    <projectUrl>https://github.com/xenoinc/LiteMigrator</projectUrl>
+    <description>LiteMigrator is a tiny SQLite Migration framework for crossplatform projects. Go Xamarin!</description>
+    <releaseNotes>Basic sqlite migration utility</releaseNotes>
+    <copyright>Copyright 2020 Xeno Innovations, Inc.</copyright>
+    <tags>LiteMigrator, sqlite, lite migrator, light xamarin, fluent database migration</tags>
+    <repository type="git" url="https://github.com/xenoinc/LiteMigrator" />
+    <dependencies>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="sqlite-net-pcl" version="1.7.335" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="nuget.exe" target="nuget.exe" />
+  </files>
+</package>
