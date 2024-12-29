@@ -50,7 +50,8 @@ namespace Xeno.LiteMigrator.SystemTests.Specs
 
       // Assert
       var tbl = db.Table<VersionInfo>();
-      var count = tbl.CountAsync();
+      var count = await tbl.CountAsync();
+
       Assert.AreNotEqual(3, count);
 
       await db.CloseAsync();

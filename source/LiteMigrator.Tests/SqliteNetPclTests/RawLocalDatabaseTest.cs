@@ -90,8 +90,8 @@ namespace Xeno.LiteMigrator.SystemTests.Specs.SqliteNetPclTests
 
       _db.CreateTableAsync<DummyTable>().Wait();
 
-      var items = await _db.QueryAsync<List<string>>("SELECT name FROM sqlite_master WHERE type='table' AND name='DummyTable';");
-      Assert.AreNotEqual(0, items);
+      List<List<string>> items = await _db.QueryAsync<List<string>>("SELECT name FROM sqlite_master WHERE type='table' AND name='DummyTable';");
+      Assert.IsNotNull(items);
 
       // Returns column names and info
       var columnInfo = await _db.GetTableInfoAsync("DummyTable");

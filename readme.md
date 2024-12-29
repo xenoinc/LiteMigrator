@@ -53,7 +53,7 @@ Give it a test drive and support making LiteMigrator better :)
 
 1. Fork on GitHub
 2. Create a branch
-3. Code (_and add tests)
+3. Code (_and add tests_)
 4. Create a Pull Request (_PR_) on GitHub
    1. Target the ``develop`` branch and we'll get it merged up to ``master``
    2. Target the ``master`` branch for hotfixes
