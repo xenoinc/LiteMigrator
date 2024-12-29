@@ -1,4 +1,4 @@
-﻿/* Copyright Xeno Innovations, Inc. 2019
+/* Copyright Xeno Innovations, Inc. 2019
  * Date:    2019-8-30
  * Author:  Damian Suess
  * File:    RawLocalDatabaseTest.cs
@@ -9,10 +9,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Xeno.LiteMigrator.SystemTests.TestData;
+using LiteMigrator.SystemTests.TestData;
 
-namespace Xeno.LiteMigrator.SystemTests.Specs.SqliteNetPclTests
+namespace LiteMigrator.SystemTests.Specs.SqliteTests
 {
   [TestClass]
   public class RawLocalDatabaseTest
@@ -49,16 +48,17 @@ namespace Xeno.LiteMigrator.SystemTests.Specs.SqliteNetPclTests
         Assert.Fail($"File '{dbPath}' was not deleted");
     }
 
-    [TestMethod]
+    [TestMethod("Create table in-memory test. Runs by itself, but not as a group")]
     public async Task MemoryCreateTestAsync()
     {
       // Assemble
       CreateConnection();
 
+      // This table doesn't exist anyways
       var columnInfo = await _db.GetTableInfoAsync("DummyTable");
 
       // Act
-      if (columnInfo != null && columnInfo.Count == 0)
+      if (columnInfo is not null && columnInfo.Count == 0)
       {
         // Consider..  <..>(CreateFlags.AllImplicit).Wait();
         _db.CreateTableAsync<DummyTable>().Wait();
@@ -90,8 +90,8 @@ namespace Xeno.LiteMigrator.SystemTests.Specs.SqliteNetPclTests
 
       _db.CreateTableAsync<DummyTable>().Wait();
 
-      var items = await _db.QueryAsync<List<string>>("SELECT name FROM sqlite_master WHERE type='table' AND name='DummyTable';");
-      Assert.AreNotEqual(0, items);
+      List<List<string>> items = await _db.QueryAsync<List<string>>("SELECT name FROM sqlite_master WHERE type='table' AND name='DummyTable';");
+      Assert.IsNotNull(items);
 
       // Returns column names and info
       var columnInfo = await _db.GetTableInfoAsync("DummyTable");

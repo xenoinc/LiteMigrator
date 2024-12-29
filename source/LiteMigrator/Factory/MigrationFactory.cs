@@ -1,4 +1,4 @@
-﻿/* Copyright Xeno Innovations, Inc. 2019
+/* Copyright Xeno Innovations, Inc. 2019
  * Date:    2019-9-28
  * Author:  Damian Suess
  * File:    MigrationFactory.cs
@@ -62,7 +62,7 @@ namespace Xeno.LiteMigrator.Factory
     /// <param name="data">SQL script.</param>
     /// <returns>True if file was found.</returns>
     /// <example>
-    ///   isFound = GetMigrationScript("20190915000-BaseDDL.sql", out string sql);
+    ///   <![CDATA[isFound = GetMigrationScript("20190915000-BaseDDL.sql", out string sql);]]>
     /// </example>
     public bool GetMigrationScriptByName(string fileName, out string data)
     {
@@ -71,7 +71,7 @@ namespace Xeno.LiteMigrator.Factory
     }
 
     /// <summary>Get migration script data using the full resource namespace path.</summary>
-    /// <param name="resourcePath">Namespace path</param>
+    /// <param name="resourcePath">Namespace path.</param>
     /// <returns>SQL data for script.</returns>
     public string GetMigrationScriptByResource(string resourcePath)
     {
@@ -95,8 +95,8 @@ namespace Xeno.LiteMigrator.Factory
     }
 
     /// <summary>Get migration script data using revision number.</summary>
-    /// <param name="revision">Revision Id</param>
-    /// <param name="data">SQL script</param>
+    /// <param name="revision">Revision Id.</param>
+    /// <param name="data">SQL script.</param>
     /// <returns>True if file was found.</returns>
     /// <example>
     /// <code>
@@ -174,8 +174,9 @@ namespace Xeno.LiteMigrator.Factory
       return items;
     }
 
-    /// <summary>Gets list of available migrations.</summary>
+    /// <summary>Gets list of available migration scripts in namespace.</summary>
     /// <returns>Sorted dictionary of script namespace paths.</returns>
+    /// <remarks>Rename to, GetMigrations().</remarks>
     public SortedDictionary<long, IMigration> GetSortedMigrations()
     {
       var assembly = BaseAssembly; //// Assembly.GetExecutingAssembly();
@@ -191,9 +192,11 @@ namespace Xeno.LiteMigrator.Factory
         string fileName = item.Replace($"{BaseNamespace}.", string.Empty);
         fileName = fileName.Replace($".sql", string.Empty);
 
+        // If namespace contains a '-' we'll fail!
         int ndx = fileName.IndexOf("-");
+        string baseName = fileName.Substring(0, ndx);
 
-        long revision = Convert.ToInt64(fileName.Substring(0, ndx));
+        long revision = Convert.ToInt64(baseName);
         string name = fileName.Substring(ndx + 1);
 
         dict.Add(revision, new Migration(revision, name, item));

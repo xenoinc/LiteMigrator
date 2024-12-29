@@ -15,7 +15,7 @@ ALTER TABLE [PaymentType] ADD COLUMN [SyncIsDeleted] BIT NULL DEFAULT(0);
 
 CREATE UNIQUE INDEX IF NOT EXISTS UIDX_PaymentType_SyncGuid ON PaymentType(SyncGuid);
 
- INSERT INTO PaymentType (Id, Name, Description) VALUES
+INSERT INTO PaymentType (Id, Name, Description) VALUES
 (0, 'Unknown', 'Unknown'),
 (1, 'Cash', 'Cash'),
 (2, 'Credit', 'Credit Card'),

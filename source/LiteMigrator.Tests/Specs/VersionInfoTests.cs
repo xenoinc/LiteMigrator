@@ -1,4 +1,4 @@
-﻿/* Copyright Xeno Innovations, Inc. 2019
+/* Copyright Xeno Innovations, Inc. 2019
  * Date:    2019-9-28
  * Author:  Damian Suess
  * File:    LiteMigratorVersionInfoTests.cs
@@ -13,35 +13,30 @@
  */
 
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SQLite;
+using Xeno.LiteMigrator;
 using Xeno.LiteMigrator.DataObjects;
 using Xeno.LiteMigrator.Versioning;
 
-namespace Xeno.LiteMigrator.SystemTests.Specs
+namespace LiteMigrator.SystemTests.Specs
 {
   /// <summary>LiteMigrator Tests.</summary>
   [TestCategory("Database")]
   [TestClass]
   public class LiteMigratorVersionInfoTests : BaseTest
   {
-    private TestContext _context;
-
     /// <summary>
     /// Gets or sets the test context which provides
     /// information about and functionality for the current test run.
     /// </summary>
-    public TestContext TestContext
-    {
-      get => _context;
-      set => _context = value;
-    }
+    public TestContext TestContext { get; set; }
 
     [TestMethod]
     public async Task VersionInfoCanAddInstalledVersionsTestAsync()
     {
       // Arrange
       ClearVersionInfo();
+
       var mig = new LiteMigration(TempDatabasePath, string.Empty, DatabaseType.SQLite);
 
       // Act
@@ -50,32 +45,33 @@ namespace Xeno.LiteMigrator.SystemTests.Specs
 
       // Assert
       var tbl = db.Table<VersionInfo>();
-      var count = tbl.CountAsync();
-      Assert.AreNotEqual(3, count);
+      var count = await tbl.CountAsync();
+
+      Assert.AreEqual(3, count);
 
       await db.CloseAsync();
     }
 
     [TestMethod]
-    public async Task VersionInfoCanCreateTableTestAsync()
+    public async Task CanCreateVersionInfoTable_InFile_TestAsync()
     {
-      // Arrange (as an in-memory database)
-      //// var mig = new LiteMigration(TempDatabasePath, Assembly.GetExecutingAssembly(), "");
-      var mig = new LiteMigration()
+      using (var mig = new LiteMigration(TempDatabasePath, string.Empty, DatabaseType.SQLite))
       {
-        // Act
-        // Note: Changing the DB post-constructor will force the system to reinitialize the DB
-        DatabasePath = TempDatabasePath,
-      };
+        var columnInfo = await mig.Connection.GetTableInfoAsync(nameof(VersionInfo));
 
-      await Task.Delay(100).ConfigureAwait(false);
+        Assert.AreNotEqual(0, columnInfo.Count, "VersionInfo table was not created.");
+      }
+    }
 
-      // Assert
-      SQLiteAsyncConnection db = new SQLiteAsyncConnection(TempDatabasePath);
-      var columnInfo = await db.GetTableInfoAsync(nameof(VersionInfo));
-      await db.CloseAsync();
+    [TestMethod]
+    public async Task CanCreateVersionInfoTable_InMemory_TestAsync()
+    {
+      using (var mig = new LiteMigration())
+      {
+        var columnInfo = await mig.Connection.GetTableInfoAsync(nameof(VersionInfo));
 
-      Assert.AreNotEqual(0, columnInfo.Count, "VersionInfo table was not created.");
+        Assert.AreNotEqual(0, columnInfo.Count, "VersionInfo table was not created.");
+      }
     }
 
     [TestMethod]

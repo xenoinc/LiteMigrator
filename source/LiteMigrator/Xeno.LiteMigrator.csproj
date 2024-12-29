@@ -7,7 +7,7 @@
     <Authors>Damian Suess</Authors>
     <Company>Xeno Innovations</Company>
     <Description>LiteMigrator is a tiny SQLite Migration framework for crossplatform projects. Built for Xamarin mobile projects!</Description>
-    <Copyright>Copyright 2020 Xeno Innovations, Inc.</Copyright>
+    <Copyright>Copyright 2024 Xeno Innovations, Inc.</Copyright>
     <Product>LiteMigrator</Product>
     <PackageTags>LiteMigrator, sqlite, lite migrator, light migrator, xamarin, fluent migrator, database migration</PackageTags>
     <PackageProjectUrl>https://github.com/xenoinc/LiteMigrator</PackageProjectUrl>
@@ -17,7 +17,9 @@
     <PackageReleaseNotes>Basic sqlite migration utility</PackageReleaseNotes>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseFile>license.txt</PackageLicenseFile>
-    <Version>0.5.0.1</Version>
+    <Version>0.6.0.0</Version>
+    <LangVersion>latest</LangVersion>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -33,8 +35,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="sqlite-net-pcl" Version="1.7.335" />
-    <PackageReference Include="StyleCop.Analyzers.Unstable" Version="1.2.0.406">
+    <PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
+    <PackageReference Include="StyleCop.Analyzers.Unstable" Version="1.2.0.556">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -48,6 +50,10 @@
     <None Include="..\..\license.txt">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
+    </None>
+    <None Include="..\..\readme.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
 
