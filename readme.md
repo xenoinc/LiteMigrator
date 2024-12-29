@@ -1,4 +1,4 @@
-# Lite Migrator for mobile devices
+# SQLite Lite Migrator for cross-platform .NET
 
 <img align="right" width="90" height="90" src="https://raw.githubusercontent.com/xenoinc/SQLiteMigrator/master/docs/logo.png" /> LiteMigrator is a tiny cross-platform SQLite migration framework for Xamarin (_.NET Standard_) inspired by [Fluent Migrator](https://github.com/fluentmigrator/fluentmigrator). This framework was built for use with Xamarin 🐒 projects, so it needs to be quick, simple and reliable when managing databases
 
@@ -15,9 +15,10 @@ Check out the sample project's source code [LiteMigrator.Sample](https://github.
 
 | Platform | Status |
 |----------|--------|
+| Windows  | Yes
+| Linux    | Yes
 | Android  | Yes
-| UWP      | _In-progress_
-| iOS      | _Needs Verified_
+| iOS      | Yes
 
 Contribute today and get your platform supported 👍
 
@@ -26,7 +27,7 @@ Get [LiteMigrator](https://www.nuget.org/packages/Xeno.LiteMigrator) on NuGet to
 
 Currently, we recommend you add this to your project using Git's submodule so you always get the latest.
 
-### Getting Started
+## Getting Started
 Detailed instructions can be found on the [Using LiteMigrator](https://github.com/xenoinc/SQLiteMigrator/wiki/Using-LiteMigrator) wiki page.
 
 1. Add **LiteMigrator** project to your solution
@@ -34,6 +35,23 @@ Detailed instructions can be found on the [Using LiteMigrator](https://github.co
 3. Add SQL files as **Embedded Resources**
   * You must use the naming convention, "_YYYYMMDDhhmm-FileName.sql_"
 4. Wire-up the controller
+
+
+### Use Case 1
+
+```cs
+  var scriptNamespace = "MyProject.Namespace.Scripts";
+
+  using (var migrator = new LiteMigration(
+    "c:\\path\\to\\sqlite.db3"
+    Assembly.GetExecutingAssembly(),
+    scriptNamespace))
+  {
+    bool isSuccessful = await migrator.MigrateUpAsync();
+  }
+```
+
+### Use Case 2 - Class Constructor
 
 ```cs
 public async Task InstallMigrationsAsync()
@@ -45,6 +63,9 @@ public async Task InstallMigrationsAsync()
 
   var liteMig = new LiteMigration(dbPath, resourceAssm, migsNamespace);
   bool = success = await liteMig.MigrateUpAsync();
+
+  // Required after v0.6
+  liteMig.Dispose();
 }
 ```
 
@@ -60,5 +81,6 @@ Give it a test drive and support making LiteMigrator better :)
 5. Get the PR merged
 6. Welcome to our contributors' list!
 
-This project could use your assistance to crush limitation
+This project could use your assistance to crush any limitations.
+
 Please visit the [Known Limitations](https://github.com/xenoinc/SQLiteMigrator/wiki/Known-Limitations) wiki page
