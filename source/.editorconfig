@@ -40,7 +40,7 @@ indent_style = space
 
 # VSSPELL: Spell checker settings for all files
 vsspell_section_id = 844a496250374d009d0aa76e9df49c5a
-#vsspell_ignored_words_844a496250374d009d0aa76e9df49c5a = \transform|csharp|Guid|html|htmlx|hunspells|jquery|json|migrator|mimetype|nav|plaintext|resheader|Suess|uuid|xaml|xml
+#vsspell_ignored_words_844a496250374d009d0aa76e9df49c5a = \transform|csharp|Guid|html|htmlx|hunspells|jquery|json|migrator|mimetype|nav|nullable|plaintext|resheader|Suess|uuid|xaml|xml
 vsspell_ignored_words_844a496250374d009d0aa76e9df49c5a = File:IgnoredWords.dic
 vsspell_exclusion_expressions_844a496250374d009d0aa76e9df49c5a = [a-z]{2}-([A-Z]{2}|Cyrl|Latn)(?@@PND@@/Options/None)\\\\\w+(?@@PND@@/Options/None)
 vsspell_dictionary_languages_844a496250374d009d0aa76e9df49c5a = en-US

@@ -1,9 +1,10 @@
 
-## Known Limitations
+# Known Limitations
+
 No system is perfect. This framework only gets better when contributors like yourself enhance it.
 
-
 ### SQLite Triggers.
+
 Because we parse on the semicolon, having another semicolon inside a statement currently is not supported.
 
 As an example, notice the ``update`` statement inside of the ``create trigger``:
@@ -53,3 +54,9 @@ BEGIN
            SUBSTR(HEX(RANDOMBLOB(2)), 2) || '-' || HEX(RANDOMBLOB(6)) ) WHERE RowId = NEW.RowId;
 END;
 ```
+
+### Recommendations
+
+Enhance the parser engine. Review other methodologies such as:
+
+* https://github.com/andialbrecht/sqlparse

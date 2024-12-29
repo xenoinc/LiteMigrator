@@ -1,4 +1,4 @@
-﻿/* Copyright Xeno Innovations, Inc. 2019
+/* Copyright Xeno Innovations, Inc. 2019
  * Date:    2019-9-15
  * Author:  Damian Suess
  * File:    LiteMigrator.cs
@@ -19,10 +19,18 @@ using Xeno.LiteMigrator.Versioning;
 namespace Xeno.LiteMigrator
 {
   /// <summary>LiteMigration core system.</summary>
-  public partial class LiteMigration
+  /// <remarks>
+  ///  1. Rename class to LiteMigrator, this may conflict with namespace.
+  ///  2. Refactor order of constructor properties (making all of them sequential).
+  ///  3. Make disposable, exposing the SQLite DB object. - In-Memory tests will fail once connection is closed.
+  /// </remarks>
+  public partial class LiteMigration : IDisposable
   {
     private const string InMemoryDatabase = ":memory:";
+
+    private SQLiteAsyncConnection _connection;
     private string _databasePath = string.Empty;
+    private bool _disposed = false;
     private bool _isInitialized = false;
     private IEngine _sqlEngine;
 
@@ -119,6 +127,10 @@ namespace Xeno.LiteMigrator
           break;
       }
 
+      // Connect to database immediately
+      if (!Connect(DatabasePath))
+        System.Diagnostics.Debug.WriteLine("Failed to create DB");
+
       // The next operation may begin before this is finished being created
       VersionInitialize();
 
@@ -135,6 +147,9 @@ namespace Xeno.LiteMigrator
         Migrations.BaseNamespace = value;
       }
     }
+
+    /// <summary>Gets the SQLite connection.</summary>
+    public SQLiteAsyncConnection Connection => _connection;
 
     /// <summary>Gets or sets the SQLite Database Path.</summary>
     /// <value>SQLite Database Path.</value>
@@ -170,9 +185,64 @@ namespace Xeno.LiteMigrator
 
     public DatabaseType DatabaseType { get; set; }
 
-    public string LastError { get; set; }
+    /// <summary>Gets a value indicating whether is connected to the database.</summary>
+    public bool IsConnected
+    {
+      get
+      {
+        if (_connection is null)
+          return false;
+        else
+          return true;
+      }
+    }
+
+    /// <summary>Gets the last known error.</summary>
+    public string LastError { get; private set; }
+
+    /// <summary>Gets the last known error.</summary>
+    public Exception? LastException { get; private set; }
 
     public MigrationFactory Migrations { get; private set; }
+
+    /// <summary>Connect to the database.</summary>
+    /// <param name="databasePath">Path to the SQLite database or ":memory:".</param>
+    /// <returns>True on successful connection.</returns>
+    public bool Connect(string databasePath)
+    {
+      if (IsConnected)
+      {
+        // Disconnect so we can reconnect
+      }
+
+      try
+      {
+        _connection = new SQLiteAsyncConnection(DatabasePath);
+        return true;
+      }
+      catch (Exception ex)
+      {
+        LastException = ex;
+        LastError = ex.Message;
+      }
+
+      return false;
+    }
+
+    public void Dispose()
+    {
+      Dispose(true);
+      GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+      if (_disposed)
+        return;
+
+      // Close database connection.
+      _connection?.CloseAsync();
+    }
 
     //// FUTURE: Consider adding this feature one day
     //// <summary>Overrides the name of our version info table</summary>
@@ -194,6 +264,7 @@ namespace Xeno.LiteMigrator
     /// <summary>Executes a single migration script.</summary>
     /// <param name="migration">Migration script information.</param>
     /// <returns>True if executed without errors.</returns>
+    [Obsolete("Not implemented.")]
     public async Task<bool> MigrateUpAsync(IMigration migration)
     {
       await Task.Yield();
@@ -226,7 +297,7 @@ namespace Xeno.LiteMigrator
         var missing = await GetMissingMigrationsAsync();
 
         // _sqlEngine.Connect(DatabasePath);
-        SQLiteAsyncConnection db = new SQLiteAsyncConnection(DatabasePath);
+        //// SQLiteAsyncConnection db = new SQLiteAsyncConnection(DatabasePath);
 
         foreach (var mig in missing)
         {
@@ -236,7 +307,7 @@ namespace Xeno.LiteMigrator
 
           // isOk = _sqlEngine.ExecuteMigration(mig, out errMsg);
           // if (!isOk) break;
-          await db.RunInTransactionAsync(tran =>
+          await _connection.RunInTransactionAsync(tran =>
           {
             // Cannot begin a transaction while in one
             // tran.BeginTransaction();
@@ -303,6 +374,7 @@ namespace Xeno.LiteMigrator
                              $"* Previous Query: {lastQuery}";
 
                 System.Diagnostics.Debug.WriteLine($"[ERROR] [LiteMigration] [{err}]");
+                LastException = execEx;
                 throw new Exception(err);
               }
 
@@ -327,6 +399,7 @@ namespace Xeno.LiteMigrator
 
               // TODO: Report which migration script & error message
               LastError = errMsg;
+              LastException = ex;
             }
           });
 
@@ -335,7 +408,7 @@ namespace Xeno.LiteMigrator
         }
 
         // _sqlEngine.Close()
-        await db.CloseAsync();
+        //// await _connection.CloseAsync();
       }
 
       if (hasError)
@@ -413,9 +486,11 @@ namespace Xeno.LiteMigrator
 
       try
       {
-        SQLiteAsyncConnection db = new SQLiteAsyncConnection(DatabasePath);
-        var list = await db.Table<VersionInfo>().ToListAsync();
-        await db.CloseAsync();
+        //// SQLiteAsyncConnection db = new SQLiteAsyncConnection(DatabasePath);
+        var list = await _connection.Table<VersionInfo>().ToListAsync();
+
+        // TODO: In-memory DB will erase when closed
+        //// await _connection.CloseAsync();
 
         foreach (VersionInfo item in list)
         {
@@ -478,19 +553,31 @@ namespace Xeno.LiteMigrator
       AddVersion(migration);
     }
 
-    public void VersionInitialize()
+    public CreateTableResult? VersionInitialize()
     {
       try
       {
         Versions = new Versions();
+        var task = _connection.CreateTableAsync<VersionInfo>();
 
+        // Make sure the table is created before moving along
+        task.Wait();
+        var result = task.Result;
+
+        return result;
+
+        /*
         SQLiteAsyncConnection db = new SQLiteAsyncConnection(DatabasePath);
         db.CreateTableAsync<VersionInfo>();
         db.CloseAsync();
+        */
       }
       catch (Exception ex)
       {
+        LastException = ex;
         System.Diagnostics.Debug.WriteLine("[Error] [VersionInitialize] " + ex.Message);
+
+        return null;
       }
     }
 
@@ -499,13 +586,17 @@ namespace Xeno.LiteMigrator
       try
       {
         Versions = new Versions();
+        await _connection.CreateTableAsync<VersionInfo>();
 
+        /*
         SQLiteAsyncConnection db = new SQLiteAsyncConnection(DatabasePath);
         await db.CreateTableAsync<VersionInfo>();
         await db.CloseAsync();
+        */
       }
       catch (Exception ex)
       {
+        LastException = ex;
         System.Diagnostics.Debug.WriteLine("[Error] [VersionInitialize] " + ex.Message);
       }
     }
