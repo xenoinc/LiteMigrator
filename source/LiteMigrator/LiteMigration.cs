@@ -108,9 +108,11 @@ namespace Xeno.LiteMigrator
 
       // Create version info table here
       // Initialize().Wait();
-      Migrations = new MigrationFactory();
-      Migrations.BaseAssemblyFile = baseAssembly;
-      Migrations.BaseNamespace = baseNamespace;
+      Migrations = new()
+      {
+        BaseAssemblyFile = baseAssembly,
+        BaseNamespace = baseNamespace,
+      };
 
       switch (databaseType)
       {
@@ -142,10 +144,7 @@ namespace Xeno.LiteMigrator
     public string BaseNamespace
     {
       get => Migrations.BaseNamespace;
-      set
-      {
-        Migrations.BaseNamespace = value;
-      }
+      set => Migrations.BaseNamespace = value;
     }
 
     /// <summary>Gets the SQLite connection.</summary>
@@ -254,13 +253,7 @@ namespace Xeno.LiteMigrator
   /// <summary>LiteMigration, migration scripts.</summary>
   public partial class LiteMigration
   {
-    [Obsolete("Use, VersionInitializeAsync()")]
-    public void CreateBaseFramework()
-    {
-      // Check if VersionInfo table exists and create it if not
-      throw new NotImplementedException();
-    }
-
+    /*
     /// <summary>Executes a single migration script.</summary>
     /// <param name="migration">Migration script information.</param>
     /// <returns>True if executed without errors.</returns>
@@ -270,6 +263,7 @@ namespace Xeno.LiteMigrator
       await Task.Yield();
       throw new NotImplementedException();
     }
+    */
 
     /// <summary>
     ///   Executes all missing migration scripts inside a database transaction
