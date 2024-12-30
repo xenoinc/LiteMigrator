@@ -1,4 +1,4 @@
-﻿/* Copyright Xeno Innovations, Inc. 2019
+/* Copyright Xeno Innovations, Inc. 2019
  * Date:    2019-9-28
  * Author:  Damian Suess
  * File:    VersionFactory.cs
@@ -9,12 +9,13 @@
  *  the database path with our main LiteMigrator session in-project
  */
 
+/*
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using SQLite;
 using LiteMigrator.DataObjects;
 using LiteMigrator.Versioning;
+using SQLite;
 
 namespace LiteMigrator.Factory
 {
@@ -61,3 +62,4 @@ namespace LiteMigrator.Factory
     ////}
   }
 }
+*/

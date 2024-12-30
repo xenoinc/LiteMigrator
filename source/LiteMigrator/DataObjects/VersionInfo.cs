@@ -1,4 +1,4 @@
-﻿/* <copyright file="VersionInfo.cs" company="Xeno Innovations, Inc.">
+/* <copyright file="VersionInfo.cs" company="Xeno Innovations, Inc.">
  * Copyright (c) Xeno Innovations, Inc. All rights reserved.
  * </copyright>
  *
@@ -14,19 +14,18 @@
 using System;
 using SQLite;
 
-namespace LiteMigrator.DataObjects
+namespace LiteMigrator.DataObjects;
+
+[Table("VersionInfo")]
+public class VersionInfo : IVersionInfo
 {
-  [Table("VersionInfo")]
-  public class VersionInfo : IVersionInfo
-  {
-    [PrimaryKey]
-    [AutoIncrement]
-    public int VersionId { get; set; }
+  [PrimaryKey]
+  [AutoIncrement]
+  public int VersionId { get; set; }
 
-    public long VersionNumber { get; set; }
+  public long VersionNumber { get; set; }
 
-    public DateTime AppliedDttm { get; set; }
+  public DateTime AppliedDttm { get; set; }
 
-    public string Description { get; set; }
-  }
+  public string Description { get; set; }
 }

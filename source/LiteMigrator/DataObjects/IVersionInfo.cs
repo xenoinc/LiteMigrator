@@ -1,4 +1,4 @@
-﻿/* <copyright file="IVersionInfo.cs" company="Xeno Innovations, Inc.">
+/* <copyright file="IVersionInfo.cs" company="Xeno Innovations, Inc.">
  * Copyright (c) Xeno Innovations, Inc. All rights reserved.
  * </copyright>
  *
@@ -13,14 +13,13 @@
 
 using System;
 
-namespace LiteMigrator.DataObjects
+namespace LiteMigrator.DataObjects;
+
+public interface IVersionInfo
 {
-  public interface IVersionInfo
-  {
-    long VersionNumber { get; set; }
+  long VersionNumber { get; set; }
 
-    DateTime AppliedDttm { get; set; }
+  DateTime AppliedDttm { get; set; }
 
-    string Description { get; set; }
-  }
+  string Description { get; set; }
 }

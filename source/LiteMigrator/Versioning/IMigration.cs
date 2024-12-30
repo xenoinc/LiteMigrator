@@ -1,4 +1,4 @@
-﻿/* Copyright Xeno Innovations, Inc. 2019
+/* Copyright Xeno Innovations, Inc. 2019
  * Date:    2019-9-29
  * Author:  Damian Suess
  * File:    IMigration.cs
@@ -8,18 +8,17 @@
 
 using System;
 
-namespace LiteMigrator.Versioning
+namespace LiteMigrator.Versioning;
+
+public interface IMigration
 {
-  public interface IMigration
-  {
-    DateTime AppliedDttm { get; set; }
+  DateTime AppliedDttm { get; set; }
 
-    string Description { get; set; }
+  string Description { get; set; }
 
-    /// <summary>Gets or sets the script's namespace path.</summary>
-    /// <value>Script namespace path.</value>
-    string Script { get; set; }
+  /// <summary>Gets or sets the script's namespace path.</summary>
+  /// <value>Script namespace path.</value>
+  string Script { get; set; }
 
-    long VersionNumber { get; set; }
-  }
+  long VersionNumber { get; set; }
 }
