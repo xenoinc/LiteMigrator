@@ -13,8 +13,8 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using SQLite;
-using Xeno.LiteMigrator.DataObjects;
-using Xeno.LiteMigrator;
+using LiteMigrator.DataObjects;
+using LiteMigrator;
 
 namespace LiteMigrator.SystemTests.Specs;
 

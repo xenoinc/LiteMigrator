@@ -13,10 +13,10 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using SQLite;
-using Xeno.LiteMigrator.DataObjects;
-using Xeno.LiteMigrator.Versioning;
+using LiteMigrator.DataObjects;
+using LiteMigrator.Versioning;
 
-namespace Xeno.LiteMigrator.Factory
+namespace LiteMigrator.Factory
 {
   public class VersionFactory
   {

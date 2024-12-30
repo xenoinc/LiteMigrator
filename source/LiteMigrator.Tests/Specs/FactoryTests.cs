@@ -7,7 +7,7 @@
  */
 
 using System.Reflection;
-using Xeno.LiteMigrator;
+using LiteMigrator;
 
 namespace LiteMigrator.SystemTests.Specs;
 
@@ -43,7 +43,7 @@ public class LiteMigratorFactoryTests : BaseTest
     var assm = Assembly.GetExecutingAssembly();
     var migrator = new LiteMigration(assm, BaseNamespace);
 
-    // Sample: "Xeno.MyProject.Client.Business.Migrations.201909150000-BaseDDL.sql"
+    // Sample: "MyProject.Client.Business.Migrations.201909150000-BaseDDL.sql"
     bool success = migrator.Migrations.GetMigrationScriptByName(_script001, out string data);
 
     Assert.IsTrue(success);

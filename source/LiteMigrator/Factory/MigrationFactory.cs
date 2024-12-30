@@ -11,10 +11,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using SQLitePCL;
-using Xeno.LiteMigrator.Versioning;
+using LiteMigrator.Versioning;
 
-namespace Xeno.LiteMigrator.Factory
+namespace LiteMigrator.Factory
 {
   public class MigrationFactory
   {
@@ -31,8 +30,6 @@ namespace Xeno.LiteMigrator.Factory
       BaseNamespace = baseNamespace;
       BaseAssemblyFile = baseAssemblyFile;
     }
-
-    public string BaseAssemblyFile { get; set; }
 
     public Assembly BaseAssembly
     {
@@ -53,6 +50,8 @@ namespace Xeno.LiteMigrator.Factory
         return assm;
       }
     }
+
+    public string BaseAssemblyFile { get; set; }
 
     public string BaseNamespace { get; set; }
 
