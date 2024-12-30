@@ -39,12 +39,11 @@ namespace Xeno.LiteMigrator.Factory
       get
       {
         var assm = Assembly.GetExecutingAssembly();
+
         try
         {
           if (!string.IsNullOrEmpty(BaseAssemblyFile))
-          {
             assm = Assembly.LoadFile(BaseAssemblyFile);
-          }
         }
         catch
         {
@@ -179,8 +178,10 @@ namespace Xeno.LiteMigrator.Factory
     /// <remarks>Rename to, GetMigrations().</remarks>
     public SortedDictionary<long, IMigration> GetSortedMigrations()
     {
-      var assembly = BaseAssembly; //// Assembly.GetExecutingAssembly();
-      var items = assembly.GetManifestResourceNames();
+      //// var assembly = BaseAssembly; //// Assembly.GetExecutingAssembly();
+      var items = BaseAssembly
+        .GetManifestResourceNames()
+        .Where(name => name.StartsWith(BaseNamespace) && name.EndsWith(".sql"));
 
       // TODO: Need to check if error and report why
       // I.E.
