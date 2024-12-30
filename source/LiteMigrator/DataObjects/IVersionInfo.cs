@@ -13,7 +13,7 @@
 
 using System;
 
-namespace Xeno.LiteMigrator.DataObjects
+namespace LiteMigrator.DataObjects
 {
   public interface IVersionInfo
   {

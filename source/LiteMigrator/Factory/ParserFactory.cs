@@ -12,7 +12,7 @@
 
 using System.Text.RegularExpressions;
 
-namespace Xeno.LiteMigrator.Factory
+namespace LiteMigrator.Factory
 {
   public class ParserFactory
   {

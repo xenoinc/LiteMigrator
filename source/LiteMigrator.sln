@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xeno.LiteMigrator", "LiteMigrator\Xeno.LiteMigrator.csproj", "{C96B0D25-5AA2-421E-983B-44CBFFE82129}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiteMigrator", "LiteMigrator\LiteMigrator.csproj", "{C96B0D25-5AA2-421E-983B-44CBFFE82129}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{157447EB-A133-4D28-8722-C5FD04367688}"
 EndProject

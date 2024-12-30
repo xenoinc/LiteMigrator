@@ -14,7 +14,7 @@
 using System;
 using SQLite;
 
-namespace Xeno.LiteMigrator.DataObjects
+namespace LiteMigrator.DataObjects
 {
   [Table("VersionInfo")]
   public class VersionInfo : IVersionInfo

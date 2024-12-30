@@ -14,9 +14,9 @@
 
 using System.Threading.Tasks;
 using SQLite;
-using Xeno.LiteMigrator;
-using Xeno.LiteMigrator.DataObjects;
-using Xeno.LiteMigrator.Versioning;
+using LiteMigrator;
+using LiteMigrator.DataObjects;
+using LiteMigrator.Versioning;
 
 namespace LiteMigrator.SystemTests.Specs
 {

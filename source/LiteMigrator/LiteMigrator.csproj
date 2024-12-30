@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyName>Xeno.LiteMigrator</AssemblyName>
-    <RootNamespace>Xeno.LiteMigrator</RootNamespace>
+    <AssemblyName>LiteMigrator</AssemblyName>
+    <RootNamespace>LiteMigrator</RootNamespace>
 
     <Authors>Damian Suess</Authors>
     <Company>Xeno Innovations</Company>

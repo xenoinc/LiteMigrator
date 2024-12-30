@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
-    <id>Xeno.LiteMigrator</id>
+    <id>LiteMigrator</id>
     <version>0.8.0.0</version>
     <title>LiteMigrator</title>
     <authors>Damian Suess</authors>

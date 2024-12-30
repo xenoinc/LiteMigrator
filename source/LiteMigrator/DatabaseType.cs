@@ -6,7 +6,7 @@
  *  DatabaseType
  */
 
-namespace Xeno.LiteMigrator
+namespace LiteMigrator
 {
   /// <summary>Database connection type.</summary>
   public enum DatabaseType

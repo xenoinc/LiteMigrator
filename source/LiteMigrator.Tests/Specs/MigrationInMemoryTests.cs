@@ -8,7 +8,7 @@
 
 using System.Reflection;
 using System.Threading.Tasks;
-using Xeno.LiteMigrator;
+using LiteMigrator;
 
 namespace LiteMigrator.SystemTests.Specs;
 

@@ -6,9 +6,9 @@
  *  LiteMigrator using the SQLCipher engine
  */
 
-using Xeno.LiteMigrator.Versioning;
+using LiteMigrator.Versioning;
 
-namespace Xeno.LiteMigrator.Engines
+namespace LiteMigrator.Engines
 {
   internal class SqlcipherEngine : IEngine
   {

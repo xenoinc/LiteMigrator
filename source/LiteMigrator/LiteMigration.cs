@@ -10,13 +10,13 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
+using LiteMigrator.DataObjects;
+using LiteMigrator.Engines;
+using LiteMigrator.Factory;
+using LiteMigrator.Versioning;
 using SQLite;
-using Xeno.LiteMigrator.DataObjects;
-using Xeno.LiteMigrator.Engines;
-using Xeno.LiteMigrator.Factory;
-using Xeno.LiteMigrator.Versioning;
 
-namespace Xeno.LiteMigrator
+namespace LiteMigrator
 {
   /// <summary>LiteMigration core system.</summary>
   /// <remarks>

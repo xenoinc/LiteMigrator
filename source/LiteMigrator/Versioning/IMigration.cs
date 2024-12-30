@@ -8,7 +8,7 @@
 
 using System;
 
-namespace Xeno.LiteMigrator.Versioning
+namespace LiteMigrator.Versioning
 {
   public interface IMigration
   {
