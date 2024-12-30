@@ -2,7 +2,7 @@
 
 > ***Notice of Change:***
 >
-> _Xeno.LiteMigrator_ has changed to ***LiteMigrator***. Please use the new package moving forward.
+> _Xeno.LiteMigrator_ has moved to ***[LiteMigrator](https://www.nuget.org/packages/LiteMigrator/)***. Please use the new package moving forward.
 
 <!-- <img align="right" width="90" height="90" src="https://raw.githubusercontent.com/xenoinc/LiteMigrator/master/docs/logo.png" /> -->
 [![](https://raw.githubusercontent.com/xenoinc/LiteMigrator/master/docs/logo.png)]()
@@ -11,8 +11,8 @@ LiteMigrator is a tiny cross-platform SQLite migration framework for .NET cross-
 
 **LiteMigrator** takes a "_migrate-up_" approach. In most app deployments, we usually move forward and rarely downgrade (_consider app stores_). This helps keep the library small and nimble.
 
-[![](https://img.shields.io/nuget/v/Xeno.LiteMigrator?color=blue)](https://www.nuget.org/packages/Xeno.LiteMigrator/)
-[![](https://img.shields.io/nuget/v/LiteMigrator?color=blue)](https://www.nuget.org/packages/LiteMigrator/)
+[![](https://img.shields.io/nuget/v/Xeno.LiteMigrator?color=blue)](https://www.nuget.org/packages/Xeno.LiteMigrator/) - _(Deprecated Package)_
+[![](https://img.shields.io/nuget/v/LiteMigrator?color=blue)](https://www.nuget.org/packages/LiteMigrator/) - _NEW Package: LiteMigrator_
 [![LiteMigrator Docs](https://img.shields.io/badge/docs-litemigrator-blue.svg)](https://github.com/xenoinc/LiteMigrator/wiki)
 
 Sponsored by [Xeno Innovations](https://xenoinc.com) and [Suess Labs](https://suesslabs.com), this project was made with nerd-love.
