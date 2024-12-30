@@ -1,11 +1,16 @@
 # SQLite Lite Migrator for cross-platform .NET
 
-<img align="right" width="90" height="90" src="https://raw.githubusercontent.com/xenoinc/SQLiteMigrator/master/docs/logo.png" /> LiteMigrator is a tiny cross-platform SQLite migration framework for Xamarin (_.NET Standard_) inspired by [Fluent Migrator](https://github.com/fluentmigrator/fluentmigrator). This framework was built for use with Xamarin 🐒 projects, so it needs to be quick, simple and reliable when managing databases
+<!-- <img align="right" width="90" height="90" src="https://raw.githubusercontent.com/xenoinc/LiteMigrator/master/docs/logo.png" /> -->
+[![](https://raw.githubusercontent.com/xenoinc/LiteMigrator/master/docs/logo.png)]()
+
+LiteMigrator is a tiny cross-platform SQLite migration framework for .NET cross-platform applications using (_.NET Standard_). This library was built for use with .NET MAUI 🐒, Avalonia, and Uno projects. So it needs to be quick, simple and reliable when managing databases.
+
+LiteMigrator takes a "migrate-up" approach. In most applications, we only move forward and rarely downgrade. This helps keep the library small and nimble.
 
 [![](https://img.shields.io/nuget/v/Xeno.LiteMigrator?color=blue)](https://www.nuget.org/packages/Xeno.LiteMigrator/)
 [![LiteMigrator Docs](https://img.shields.io/badge/docs-litemigrator-blue.svg)](https://github.com/xenoinc/LiteMigrator/wiki)
 
-Sponsored by [Xeno Innovations](https://xenoinc.com), this project was made with nerd-love.
+Sponsored by [Xeno Innovations](https://xenoinc.com) and [Suess Labs](https://suesslabs.com), this project was made with nerd-love.
 
 **_This project is currently in beta_**
 
@@ -23,6 +28,7 @@ Check out the sample project's source code [LiteMigrator.Sample](https://github.
 Contribute today and get your platform supported 👍
 
 ## How to use it
+
 Get [LiteMigrator](https://www.nuget.org/packages/Xeno.LiteMigrator) on NuGet today!
 
 Currently, we recommend you add this to your project using Git's submodule so you always get the latest.
@@ -83,4 +89,4 @@ Give it a test drive and support making LiteMigrator better :)
 
 This project could use your assistance to crush any limitations.
 
-Please visit the [Known Limitations](https://github.com/xenoinc/SQLiteMigrator/wiki/Known-Limitations) wiki page
+Please visit the [Known Limitations](https://github.com/xenoinc/LiteMigrator/wiki/Known-Limitations) wiki page
