@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>Xeno.LiteMigrator</id>
-    <version>0.6.0.0</version>
+    <version>0.8.0.0</version>
     <title>LiteMigrator</title>
     <authors>Damian Suess</authors>
     <owners>xenoinc</owners>
@@ -10,10 +10,10 @@
     <license type="file">license.txt</license>
     <icon>logo.png</icon>
     <projectUrl>https://github.com/xenoinc/LiteMigrator</projectUrl>
-    <description>LiteMigrator is a tiny SQLite Migration framework for crossplatform projects.</description>
+    <description>LiteMigrator is a tiny SQLite Migration framework for cross-platform projects.</description>
     <releaseNotes>Light weight SQLite migration utility</releaseNotes>
-    <copyright>Copyright 2024 Xeno Innovations, Inc.</copyright>
-    <tags>LiteMigrator, sqlite, lite migrator, fluent database migration, maui, linux, xamarin, </tags>
+    <copyright>Copyright 2025 Xeno Innovations, Inc.</copyright>
+    <tags>LiteMigrator, sqlite, lite migrator, database, migration, fluent database migration, maui, linux, xamarin, avalonia, uno.</tags>
     <repository type="git" url="https://github.com/xenoinc/LiteMigrator" />
     <dependencies>
       <group targetFramework=".NETStandard2.0">
