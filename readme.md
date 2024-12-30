@@ -1,5 +1,9 @@
 # SQLite Lite Migrator for cross-platform .NET
 
+> ***Notice of Change:***
+>
+> _Xeno.LiteMigrator_ has changed to ***LiteMigrator***. Please use the new package moving forward.
+
 <!-- <img align="right" width="90" height="90" src="https://raw.githubusercontent.com/xenoinc/LiteMigrator/master/docs/logo.png" /> -->
 [![](https://raw.githubusercontent.com/xenoinc/LiteMigrator/master/docs/logo.png)]()
 
@@ -8,6 +12,7 @@ LiteMigrator is a tiny cross-platform SQLite migration framework for .NET cross-
 **LiteMigrator** takes a "_migrate-up_" approach. In most app deployments, we usually move forward and rarely downgrade (_consider app stores_). This helps keep the library small and nimble.
 
 [![](https://img.shields.io/nuget/v/Xeno.LiteMigrator?color=blue)](https://www.nuget.org/packages/Xeno.LiteMigrator/)
+[![](https://img.shields.io/nuget/v/LiteMigrator?color=blue)](https://www.nuget.org/packages/LiteMigrator/)
 [![LiteMigrator Docs](https://img.shields.io/badge/docs-litemigrator-blue.svg)](https://github.com/xenoinc/LiteMigrator/wiki)
 
 Sponsored by [Xeno Innovations](https://xenoinc.com) and [Suess Labs](https://suesslabs.com), this project was made with nerd-love.
@@ -27,7 +32,7 @@ Contribute today and get your platform supported 👍
 
 ## How to use it
 
-Get [LiteMigrator](https://www.nuget.org/packages/Xeno.LiteMigrator) on NuGet today!
+Get [LiteMigrator](https://www.nuget.org/packages/LiteMigrator) on NuGet today!
 
 ## Getting Started
 Detailed instructions can be found on the [Using LiteMigrator](https://github.com/xenoinc/SQLiteMigrator/wiki/Using-LiteMigrator) wiki page.

@@ -18,7 +18,7 @@
     <PackageIcon>logo.png</PackageIcon>
     <RepositoryUrl>https://github.com/xenoinc/LiteMigrator</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageReleaseNotes>Sqlite lite migration utility</PackageReleaseNotes>
+    <PackageReleaseNotes>Xeno.LiteMigrator has moved to LiteMigrator</PackageReleaseNotes>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseFile>license.txt</PackageLicenseFile>
 

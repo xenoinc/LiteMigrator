@@ -11,7 +11,7 @@
     <icon>logo.png</icon>
     <projectUrl>https://github.com/xenoinc/LiteMigrator</projectUrl>
     <description>LiteMigrator is a tiny SQLite Migration framework for cross-platform projects.</description>
-    <releaseNotes>Light weight SQLite migration utility</releaseNotes>
+    <releaseNotes>Xeno.LiteMigrator moved to LiteMigrator</releaseNotes>
     <copyright>Copyright 2025 Xeno Innovations, Inc.</copyright>
     <tags>LiteMigrator, sqlite, lite migrator, database, migration, fluent database migration, maui, linux, xamarin, avalonia, uno.</tags>
     <repository type="git" url="https://github.com/xenoinc/LiteMigrator" />
