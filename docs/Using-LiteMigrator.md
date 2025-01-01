@@ -37,7 +37,7 @@ First, you'll need a migration controller class that kicks off your migration sc
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using Xeno.LiteMigrator;
+using LiteMigrator;
 
 namespace Xeno.Pos.Client.Business.Migrations
 {

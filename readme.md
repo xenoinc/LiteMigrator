@@ -1,24 +1,24 @@
 # SQLite Lite Migrator for cross-platform .NET
 
-<!-- <img align="right" width="90" height="90" src="https://raw.githubusercontent.com/xenoinc/LiteMigrator/master/docs/logo.png" /> -->
-[![](https://raw.githubusercontent.com/xenoinc/LiteMigrator/master/docs/logo.png)]()
+<!-- <img align="right" width="90" height="90" src="https://raw.githubusercontent.com/SuessLabs/LiteMigrator/master/docs/logo.png" /> -->
+[![](https://raw.githubusercontent.com/SuessLabs/LiteMigrator/master/docs/logo.png)]()
 
 LiteMigrator is a tiny cross-platform SQLite migration framework for .NET cross-platform applications using (_.NET Standard_). This library was built for use with .NET MAUI 🐒, Avalonia, and Uno projects. So it needs to be quick, simple, and reliable when managing databases.
 
-**LiteMigrator** takes a "_migrate-up_" approach. In most app deployments, we usually move forward and rarely downgrade (_consider app stores_). This helps keep the library small and nimble.
+**LiteMigrator** takes a "_migrate-up_" approach. In most app deployments, we usually move forward and rarely downgrade (_consider app stores_). This helps keep the library small and nimble. Previously known as, _SQLiteMigrator_.
 
 [![](https://img.shields.io/nuget/v/LiteMigrator?color=blue)](https://www.nuget.org/packages/LiteMigrator/)
-[![LiteMigrator Docs](https://img.shields.io/badge/docs-litemigrator-blue.svg)](https://github.com/xenoinc/LiteMigrator/wiki)
+[![LiteMigrator Docs](https://img.shields.io/badge/docs-litemigrator-blue.svg)](https://github.com/SuessLabs/LiteMigrator/wiki)
 
 > Breaking Change from 0.6.x to now:
 >
 > Namespace changed from `Xeno.LiteMigrator` to `LiteMigrator`
 
-Sponsored by [Xeno Innovations](https://xenoinc.com) and [Suess Labs](https://suesslabs.com), this project was made with nerd-love.
+Brought to you with nerd-love by [Suess Labs](https://suesslabs.com), sponsored by [Xeno Innovations](https://xenoinc.com).
 
 ## Supported Platforms
 
-Check out the sample project's source code [LiteMigrator.Sample](https://github.com/xenoinc/LiteMigrator.Sample)
+Check out the sample project's source code [LiteMigrator.Sample](https://github.com/SuessLabs/LiteMigrator.Sample)
 
 | Platform | Status |
 |----------|--------|
@@ -34,7 +34,7 @@ Contribute today and get your platform supported 👍
 Get [LiteMigrator](https://www.nuget.org/packages/LiteMigrator) on NuGet today!
 
 ## Getting Started
-Detailed instructions can be found on the [Using LiteMigrator](https://github.com/xenoinc/SQLiteMigrator/wiki/Using-LiteMigrator) wiki page.
+Detailed instructions can be found on the [Using LiteMigrator](https://github.com/SuessLabs/LiteMigrator/wiki/Using-LiteMigrator) wiki page.
 
 1. Add **LiteMigrator** project to your solution
 2. Create a folder in your solution to hold the scripts
@@ -49,9 +49,9 @@ Detailed instructions can be found on the [Using LiteMigrator](https://github.co
   var scriptNamespace = "MyProject.Namespace.Scripts";
 
   using (var migrator = new LiteMigration(
-    "c:\\path\\to\\sqlite.db3"
-    Assembly.GetExecutingAssembly(),
-    scriptNamespace))
+    "c:\\path\\to\\sqlite.db3",
+    scriptNamespace,
+    Assembly.GetExecutingAssembly()))
   {
     bool isSuccessful = await migrator.MigrateUpAsync();
   }
@@ -63,11 +63,11 @@ Detailed instructions can be found on the [Using LiteMigrator](https://github.co
 public async Task InstallMigrationsAsync()
 {
   // Your EXE/DLL with the scripts
-  var resourceAssm = Assembly.GetExecutingAssembly();
   var dbPath = @"C:\TEMP\MyDatabase.db3";
   var migsNamespace = "MyProjNamespace.Scripts";
+  var resourceAssm = Assembly.GetExecutingAssembly();
 
-  var liteMig = new LiteMigration(dbPath, resourceAssm, migsNamespace);
+  var liteMig = new LiteMigration(dbPath, migsNamespace, resourceAssm);
   bool = success = await liteMig.MigrateUpAsync();
 
   // Required after v0.6
@@ -90,4 +90,4 @@ Give it a test drive and support making LiteMigrator better :)
 
 This project could use your assistance to crush any limitations.
 
-Please visit the [Known Limitations](https://github.com/xenoinc/LiteMigrator/wiki/Known-Limitations) wiki page
+Please visit the [Known Limitations](https://github.com/SuessLabs/LiteMigrator/wiki/Known-Limitations) wiki page
