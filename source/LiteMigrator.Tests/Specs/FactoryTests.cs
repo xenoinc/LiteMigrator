@@ -15,20 +15,18 @@ namespace LiteMigrator.SystemTests.Specs;
 public class LiteMigratorFactoryTests : BaseTest
 {
   private const string BaseNamespace = "LiteMigrator.SystemTests.TestData.Scripts";
-
-  private readonly string _script001 = "201909150000-BaseDDL.sql";
-  private readonly string _scriptName = "BaseDDL";
-  private readonly long _scriptRevision = 201909150000;
+  private const string ScriptFullName = "201909150000-BaseDDL.sql";
+  private const string ScriptName = "BaseDDL";
+  private const long ScriptRevision = 201909150000;
 
   [TestMethod]
-  public void GetMigrationScriptNamedTest()
+  public void GetMigrationScriptByNameTest()
   {
     // Arrange
-    var resourceAssm = Assembly.GetExecutingAssembly();
-    var migrator = new LiteMigration(resourceAssm, BaseNamespace);
+    var migrator = new LiteMigration(InMemoryDatabasePath, BaseNamespace, Assembly.GetExecutingAssembly());
 
     // Act
-    string ns = migrator.Migrations.GetResourceNamed(_scriptName);
+    string ns = migrator.Migrations.GetResourceNamed(ScriptName);
     migrator.Migrations.GetMigrationScriptByName(ns, out string sql);
 
     // Assert
@@ -40,11 +38,10 @@ public class LiteMigratorFactoryTests : BaseTest
   [TestMethod]
   public void GetMigrationScriptTest()
   {
-    var assm = Assembly.GetExecutingAssembly();
-    var migrator = new LiteMigration(assm, BaseNamespace);
+    var migrator = new LiteMigration(InMemoryDatabasePath, BaseNamespace, Assembly.GetExecutingAssembly());
 
     // Sample: "MyProject.Client.Business.Migrations.201909150000-BaseDDL.sql"
-    bool success = migrator.Migrations.GetMigrationScriptByName(_script001, out string data);
+    bool success = migrator.Migrations.GetMigrationScriptByName(ScriptFullName, out string data);
 
     Assert.IsTrue(success);
     Assert.IsNotNull(data);
@@ -54,10 +51,9 @@ public class LiteMigratorFactoryTests : BaseTest
   [TestMethod]
   public void GetMigrationScriptVerionTest()
   {
-    var resourceAssm = Assembly.GetExecutingAssembly();
-    var migrator = new LiteMigration(resourceAssm, BaseNamespace);
+    var migrator = new LiteMigration(InMemoryDatabasePath, BaseNamespace, Assembly.GetExecutingAssembly());
 
-    var results = migrator.Migrations.GetMigrationScriptByVersion(_scriptRevision, out string sql);
+    var results = migrator.Migrations.GetMigrationScriptByVersion(ScriptRevision, out string sql);
 
     // Assert
     Assert.IsTrue(results);
@@ -69,11 +65,10 @@ public class LiteMigratorFactoryTests : BaseTest
   public void GetResourceNamedTest()
   {
     // Arrange
-    var resourceAssm = Assembly.GetExecutingAssembly();
-    var migrator = new LiteMigration(resourceAssm, BaseNamespace);
+    var migrator = new LiteMigration(InMemoryDatabasePath, BaseNamespace, Assembly.GetExecutingAssembly());
 
     // Act
-    string data = migrator.Migrations.GetResourceNamed(_scriptName);
+    string data = migrator.Migrations.GetResourceNamed(ScriptName);
 
     // Assert
     Assert.IsNotNull(data);
@@ -84,7 +79,7 @@ public class LiteMigratorFactoryTests : BaseTest
   public void GetResourcesTests()
   {
     // Arrange
-    var migrator = new LiteMigration(Assembly.GetExecutingAssembly(), BaseNamespace);
+    var migrator = new LiteMigration(InMemoryDatabasePath, BaseNamespace, Assembly.GetExecutingAssembly());
 
     // Act
     var items = migrator.Migrations.GetResources();
@@ -105,7 +100,7 @@ public class LiteMigratorFactoryTests : BaseTest
   {
     // Arrange
     long oldVer = 0;
-    var migrator = new LiteMigration(Assembly.GetExecutingAssembly(), BaseNamespace);
+    var migrator = new LiteMigration(InMemoryDatabasePath, BaseNamespace, Assembly.GetExecutingAssembly());
 
     // Act
     var items = migrator.Migrations.GetSortedMigrations();
@@ -133,7 +128,7 @@ public class LiteMigratorFactoryTests : BaseTest
   {
     // Arrange
     long oldVer = 0;
-    var migrator = new LiteMigration(Assembly.GetExecutingAssembly(), BaseNamespace);
+    var migrator = new LiteMigration(InMemoryDatabasePath, BaseNamespace, Assembly.GetExecutingAssembly());
 
     // Act
     var items = migrator.Migrations.GetSortedMigrations();

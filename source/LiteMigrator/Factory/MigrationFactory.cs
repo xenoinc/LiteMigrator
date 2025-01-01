@@ -13,196 +13,206 @@ using System.Linq;
 using System.Reflection;
 using LiteMigrator.Versioning;
 
-namespace LiteMigrator.Factory
+namespace LiteMigrator.Factory;
+
+public class MigrationFactory
 {
-  public class MigrationFactory
+  //// private string _baseAssemblyFile;
+
+  public MigrationFactory()
   {
-    //// private string _baseAssemblyFile;
+    BaseNamespace = GetType().Namespace;
+    BaseAssemblyFile = string.Empty;
+  }
 
-    public MigrationFactory()
+  public MigrationFactory(string baseNamespace, string baseAssemblyFile = "")
+  {
+    BaseNamespace = baseNamespace;
+    BaseAssemblyFile = baseAssemblyFile;
+  }
+
+  public Assembly BaseAssembly
+  {
+    get
     {
-      BaseNamespace = GetType().Namespace;
-      BaseAssemblyFile = string.Empty;
-    }
+      Assembly assm;
 
-    public MigrationFactory(string baseNamespace, string baseAssemblyFile = "")
-    {
-      BaseNamespace = baseNamespace;
-      BaseAssemblyFile = baseAssemblyFile;
-    }
-
-    public Assembly BaseAssembly
-    {
-      get
-      {
-        var assm = Assembly.GetExecutingAssembly();
-
-        try
-        {
-          if (!string.IsNullOrEmpty(BaseAssemblyFile))
-            assm = Assembly.LoadFile(BaseAssemblyFile);
-        }
-        catch
-        {
-          System.Console.WriteLine($"Error loading assembly from file, '{BaseAssemblyFile}'");
-        }
-
-        return assm;
-      }
-    }
-
-    public string BaseAssemblyFile { get; set; }
-
-    public string BaseNamespace { get; set; }
-
-    /// <summary>Get migration script data using name search.</summary>
-    /// <param name="fileName">File name.</param>
-    /// <param name="data">SQL script.</param>
-    /// <returns>True if file was found.</returns>
-    /// <example>
-    ///   <![CDATA[isFound = GetMigrationScript("20190915000-BaseDDL.sql", out string sql);]]>
-    /// </example>
-    public bool GetMigrationScriptByName(string fileName, out string data)
-    {
-      data = GetMigrationScriptByResource($"{BaseNamespace}.{fileName}");
-      return true;
-    }
-
-    /// <summary>Get migration script data using the full resource namespace path.</summary>
-    /// <param name="resourcePath">Namespace path.</param>
-    /// <returns>SQL data for script.</returns>
-    public string GetMigrationScriptByResource(string resourcePath)
-    {
-      string result = string.Empty;
       try
       {
-        var assembly = BaseAssembly; //// Assembly.GetExecutingAssembly();
-        using (Stream stream = assembly.GetManifestResourceStream(resourcePath))
-        using (StreamReader reader = new StreamReader(stream))
-        {
-          result = reader.ReadToEnd();
-        }
+        if (!string.IsNullOrEmpty(BaseAssemblyFile))
+          assm = Assembly.LoadFile(BaseAssemblyFile);
+        else
+          assm = Assembly.GetExecutingAssembly();
       }
-      catch (Exception ex)
+      catch
       {
-        // throw invalid namespace error?
-        System.Diagnostics.Debug.WriteLine("[Error] [GetMigrationScriptByResource] " + ex.Message);
+        System.Console.WriteLine($"Error loading assembly from file, '{BaseAssemblyFile}'");
+        assm = Assembly.GetExecutingAssembly();
       }
 
-      return result;
+      return assm;
     }
+  }
 
-    /// <summary>Get migration script data using revision number.</summary>
-    /// <param name="revision">Revision Id.</param>
-    /// <param name="data">SQL script.</param>
-    /// <returns>True if file was found.</returns>
-    /// <example>
-    /// <code>
-    ///   isFound = GetMigrationScript(20190915000, out string sql);
-    /// </code>
-    /// </example>
-    public bool GetMigrationScriptByVersion(long revision, out string data)
-    {
-      data = string.Empty;
-      bool found = false;
-      string resName = string.Empty;
-      string fileName = string.Empty;
+  public string BaseAssemblyFile { get; set; }
 
-      var assembly = BaseAssembly; //// Assembly.GetExecutingAssembly();
-      var items = assembly.GetManifestResourceNames()
-                          .Where(name => name.StartsWith(BaseNamespace));
+  public string BaseNamespace { get; set; }
 
-      foreach (var item in items)
-      {
-        fileName = item.Replace($"{BaseNamespace}.", string.Empty);
-        fileName = fileName.Replace($".sql", string.Empty);
-        int ndx = fileName.IndexOf("-");
+  /// <summary>Get migration script data using name search.</summary>
+  /// <param name="fileName">File name.</param>
+  /// <param name="data">SQL script.</param>
+  /// <returns>True if file was found.</returns>
+  /// <example>
+  ///   <![CDATA[isFound = GetMigrationScript("20190915000-BaseDDL.sql", out string sql);]]>
+  /// </example>
+  public bool GetMigrationScriptByName(string fileName, out string data)
+  {
+    data = GetMigrationScriptByResource($"{BaseNamespace}.{fileName}");
+    return true;
+  }
 
-        long rev = Convert.ToInt64(fileName.Substring(0, ndx));
-
-        if (revision == rev)
-        {
-          resName = item;
-          found = true;
-          break;
-        }
-      }
-
-      if (found)
-      {
-        data = GetMigrationScriptByResource(resName);
-        found = !string.IsNullOrEmpty(data);
-      }
-
-      return found;
-    }
-
-    /// <summary>Get the namespace of the resource ending with the specified name.</summary>
-    /// <param name="containingTitle">Part of the file name.</param>
-    /// <param name="trimNamespace">Remove 'BaseNamespace' from provided title.</param>
-    /// <returns>Full resource name.</returns>
-    public string GetResourceNamed(string containingTitle, bool trimNamespace = true)
+  /// <summary>Get migration script data using the full resource namespace path.</summary>
+  /// <param name="resourcePath">Namespace path.</param>
+  /// <returns>SQL data for script.</returns>
+  public string GetMigrationScriptByResource(string resourcePath)
+  {
+    string result = string.Empty;
+    try
     {
       var assembly = BaseAssembly; //// Assembly.GetExecutingAssembly();
-      var item = assembly.GetManifestResourceNames()
+      using (Stream stream = assembly.GetManifestResourceStream(resourcePath))
+      using (StreamReader reader = new StreamReader(stream))
+      {
+        result = reader.ReadToEnd();
+      }
+    }
+    catch (Exception ex)
+    {
+      // throw invalid namespace error?
+      System.Diagnostics.Debug.WriteLine("[Error] [GetMigrationScriptByResource] " + ex.Message);
+    }
+
+    return result;
+  }
+
+  /// <summary>Get migration script data using revision number.</summary>
+  /// <param name="revision">Revision Id.</param>
+  /// <param name="data">SQL script.</param>
+  /// <returns>True if file was found.</returns>
+  /// <example>
+  /// <code>
+  ///   isFound = GetMigrationScript(20190915000, out string sql);
+  /// </code>
+  /// </example>
+  public bool GetMigrationScriptByVersion(long revision, out string data)
+  {
+    data = string.Empty;
+    bool found = false;
+    string resName = string.Empty;
+    string fileName = string.Empty;
+
+    var assembly = BaseAssembly; //// Assembly.GetExecutingAssembly();
+    var items = assembly.GetManifestResourceNames()
+                        .Where(name => name.StartsWith(BaseNamespace));
+
+    foreach (var item in items)
+    {
+      fileName = item.Replace($"{BaseNamespace}.", string.Empty);
+      fileName = fileName.Replace($".sql", string.Empty);
+      int ndx = fileName.IndexOf("-");
+
+      long rev = Convert.ToInt64(fileName.Substring(0, ndx));
+
+      if (revision == rev)
+      {
+        resName = item;
+        found = true;
+        break;
+      }
+    }
+
+    if (found)
+    {
+      data = GetMigrationScriptByResource(resName);
+      found = !string.IsNullOrEmpty(data);
+    }
+
+    return found;
+  }
+
+  /// <summary>Get the namespace of the resource ending with the specified name.</summary>
+  /// <param name="containingTitle">Part of the file name.</param>
+  /// <param name="trimNamespace">Remove 'BaseNamespace' from provided title.</param>
+  /// <returns>Full resource name.</returns>
+  public string GetResourceNamed(string containingTitle, bool trimNamespace = true)
+  {
+    string item = string.Empty;
+
+    try
+    {
+      item = BaseAssembly.GetManifestResourceNames()
                          .Where(name => name.StartsWith(BaseNamespace))
                          .Single(x => x.Contains(containingTitle));
-
-      if (trimNamespace)
-        return item.Replace($"{BaseNamespace}.", string.Empty);
-      else
-        return item;
     }
-
-    public List<string> GetResources()
+    catch (Exception ex)
     {
-      // All loaded assemblies
-      //// var assm1 = AppDomain.CurrentDomain.GetAssemblies();
-
-      // Old method:
-      //// var assembly = Assembly.GetExecutingAssembly();
-
-      var assembly = BaseAssembly;
-
-      var items = assembly.GetManifestResourceNames()
-                          .Where(name => name.StartsWith(BaseNamespace))
-                          .ToList();
-      items.Sort();
-
-      return items;
+      System.Diagnostics.Debug.WriteLine(ex);
     }
 
-    /// <summary>Gets list of available migration scripts in namespace.</summary>
-    /// <returns>Sorted dictionary of script namespace paths.</returns>
-    /// <remarks>Rename to, GetMigrations().</remarks>
-    public SortedDictionary<long, IMigration> GetSortedMigrations()
+    if (trimNamespace)
+      return item.Replace($"{BaseNamespace}.", string.Empty);
+    else
+      return item;
+  }
+
+  public List<string> GetResources()
+  {
+    // All loaded assemblies
+    //// var assm1 = AppDomain.CurrentDomain.GetAssemblies();
+
+    // Old method:
+    //// var assembly = Assembly.GetExecutingAssembly();
+
+    var assembly = BaseAssembly;
+
+    var items = assembly.GetManifestResourceNames()
+                        .Where(name => name.StartsWith(BaseNamespace))
+                        .ToList();
+    items.Sort();
+
+    return items;
+  }
+
+  /// <summary>Gets list of available migration scripts in namespace.</summary>
+  /// <returns>Sorted dictionary of script namespace paths.</returns>
+  /// <remarks>Rename to, GetMigrations().</remarks>
+  public SortedDictionary<long, IMigration> GetSortedMigrations()
+  {
+    //// var assembly = BaseAssembly; //// Assembly.GetExecutingAssembly();
+    var items = BaseAssembly
+      .GetManifestResourceNames()
+      .Where(name => name.StartsWith(BaseNamespace) && name.EndsWith(".sql"));
+
+    // TODO: Need to check if error and report why
+    // I.E.
+    //  1. Incorrect namespace (first replace doesn't work)
+    //  2. Couldn't get the index (from failed replace, or its missing)
+    var dict = new SortedDictionary<long, IMigration>();
+    foreach (var item in items)
     {
-      //// var assembly = BaseAssembly; //// Assembly.GetExecutingAssembly();
-      var items = BaseAssembly
-        .GetManifestResourceNames()
-        .Where(name => name.StartsWith(BaseNamespace) && name.EndsWith(".sql"));
+      string fileName = item.Replace($"{BaseNamespace}.", string.Empty);
+      fileName = fileName.Replace($".sql", string.Empty);
 
-      // TODO: Need to check if error and report why
-      // I.E.
-      //  1. Incorrect namespace (first replace doesn't work)
-      //  2. Couldn't get the index (from failed replace, or its missing)
-      var dict = new SortedDictionary<long, IMigration>();
-      foreach (var item in items)
-      {
-        string fileName = item.Replace($"{BaseNamespace}.", string.Empty);
-        fileName = fileName.Replace($".sql", string.Empty);
+      // If namespace contains a '-' we'll fail!
+      int ndx = fileName.IndexOf("-");
+      string baseName = fileName.Substring(0, ndx);
 
-        // If namespace contains a '-' we'll fail!
-        int ndx = fileName.IndexOf("-");
-        string baseName = fileName.Substring(0, ndx);
+      long revision = Convert.ToInt64(baseName);
+      string name = fileName.Substring(ndx + 1);
 
-        long revision = Convert.ToInt64(baseName);
-        string name = fileName.Substring(ndx + 1);
-
-        dict.Add(revision, new Migration(revision, name, item));
-      }
-
-      return dict;
+      dict.Add(revision, new Migration(revision, name, item));
     }
+
+    return dict;
   }
 }

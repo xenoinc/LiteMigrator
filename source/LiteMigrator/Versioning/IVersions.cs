@@ -1,4 +1,4 @@
-﻿/* Copyright Xeno Innovations, Inc. 2019
+/* Copyright Xeno Innovations, Inc. 2019
  * Date:    2019-9-28
  * Author:  Damian Suess
  * File:    IVersions.cs
@@ -8,14 +8,13 @@
 
 using System.Collections.Generic;
 
-namespace LiteMigrator.Versioning
+namespace LiteMigrator.Versioning;
+
+public interface IVersions
 {
-  public interface IVersions
-  {
-    void AddItem(long version);
+  void AddItem(long version);
 
-    IEnumerable<long> AppliedMigrations();
+  IEnumerable<long> AppliedMigrations();
 
-    bool IsApplied(long version);
-  }
+  bool IsApplied(long version);
 }

@@ -37,7 +37,7 @@ namespace LiteMigrator.SystemTests.Specs
       // Arrange
       ClearVersionInfo();
 
-      var mig = new LiteMigration(TempDatabasePath, string.Empty, DatabaseType.SQLite);
+      var mig = new LiteMigration(TempDatabasePath, string.Empty);
 
       // Act
       SQLiteAsyncConnection db = new SQLiteAsyncConnection(TempDatabasePath);
@@ -55,7 +55,7 @@ namespace LiteMigrator.SystemTests.Specs
     [TestMethod]
     public async Task CanCreateVersionInfoTable_InFile_TestAsync()
     {
-      using (var mig = new LiteMigration(TempDatabasePath, string.Empty, DatabaseType.SQLite))
+      using (var mig = new LiteMigration(TempDatabasePath, string.Empty))
       {
         var columnInfo = await mig.Connection.GetTableInfoAsync(nameof(VersionInfo));
 
@@ -79,7 +79,7 @@ namespace LiteMigrator.SystemTests.Specs
     {
       // Arrange
       ClearVersionInfo();
-      var mig = new LiteMigration(TempDatabasePath, string.Empty, DatabaseType.SQLite);
+      var mig = new LiteMigration(TempDatabasePath, string.Empty);
 
       SQLiteAsyncConnection db = new SQLiteAsyncConnection(TempDatabasePath);
       await AddVersionInfoForTestsAsync(db, mig);

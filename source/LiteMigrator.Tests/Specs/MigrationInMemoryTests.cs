@@ -21,7 +21,7 @@ public sealed class MigrationInMemoryTests : BaseTest
   public async Task GetMigrationScriptsTestAsync()
   {
     // Initializes and performs migration.
-    var migrator = new LiteMigration(Assembly.GetExecutingAssembly(), ScriptNamespace);
+    var migrator = new LiteMigration(InMemoryDatabasePath, ScriptNamespace, Assembly.GetExecutingAssembly());
 
     // Find available migration scripts and those not installed
     var allMigrations = migrator.Migrations.GetSortedMigrations();
@@ -35,7 +35,7 @@ public sealed class MigrationInMemoryTests : BaseTest
   [TestMethod]
   public async Task InstallMigrationsAsync()
   {
-    using (var migrator = new LiteMigration(Assembly.GetExecutingAssembly(), ScriptNamespace))
+    using (var migrator = new LiteMigration(InMemoryDatabasePath, ScriptNamespace, Assembly.GetExecutingAssembly()))
     {
       // Act
       bool isSuccess = await migrator.MigrateUpAsync();
