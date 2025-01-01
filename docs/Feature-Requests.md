@@ -50,6 +50,7 @@ public LiteMigration(string baseNamespace, Assembly? baseAssembly = null, string
 public LiteMigration()  // Default, in-memory db
 public LiteMigration(string dbPath)
 public LiteMigration(string dbPath, string baseNamespace)
+public LiteMigration(string dbPath, string baseNamespace, Assembly? scriptAssembly)
 ```
 
 ### Connect after Constructing

@@ -35,16 +35,19 @@ public class MigrationFactory
   {
     get
     {
-      var assm = Assembly.GetExecutingAssembly();
+      Assembly assm;
 
       try
       {
         if (!string.IsNullOrEmpty(BaseAssemblyFile))
           assm = Assembly.LoadFile(BaseAssemblyFile);
+        else
+          assm = Assembly.GetExecutingAssembly();
       }
       catch
       {
         System.Console.WriteLine($"Error loading assembly from file, '{BaseAssemblyFile}'");
+        assm = Assembly.GetExecutingAssembly();
       }
 
       return assm;
@@ -143,10 +146,18 @@ public class MigrationFactory
   /// <returns>Full resource name.</returns>
   public string GetResourceNamed(string containingTitle, bool trimNamespace = true)
   {
-    var assembly = BaseAssembly; //// Assembly.GetExecutingAssembly();
-    var item = assembly.GetManifestResourceNames()
-                       .Where(name => name.StartsWith(BaseNamespace))
-                       .Single(x => x.Contains(containingTitle));
+    string item = string.Empty;
+
+    try
+    {
+      item = BaseAssembly.GetManifestResourceNames()
+                         .Where(name => name.StartsWith(BaseNamespace))
+                         .Single(x => x.Contains(containingTitle));
+    }
+    catch (Exception ex)
+    {
+      System.Diagnostics.Debug.WriteLine(ex);
+    }
 
     if (trimNamespace)
       return item.Replace($"{BaseNamespace}.", string.Empty);

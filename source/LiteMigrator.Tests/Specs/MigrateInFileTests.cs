@@ -21,7 +21,7 @@ namespace LiteMigrator.SystemTests.Specs;
 /// <summary>LiteMigrator Tests.</summary>
 [TestCategory("Database")]
 [TestClass]
-public class LiteMigratorExecuteTests : BaseTest
+public class MigratorInFileTests : BaseTest
 {
   private readonly string _baseNamespace = "LiteMigrator.SystemTests.TestData.Scripts";
 
@@ -44,8 +44,7 @@ public class LiteMigratorExecuteTests : BaseTest
   {
     DeleteDatabase();
 
-    var resourceAssm = Assembly.GetExecutingAssembly();
-    var mig = new LiteMigration(TempDatabasePath, resourceAssm, _baseNamespace);
+    var mig = new LiteMigration(_baseNamespace, Assembly.GetExecutingAssembly(), TempDatabasePath);
 
     var allMigs = mig.Migrations.GetSortedMigrations();
     var missing = await mig.GetMissingMigrationsAsync();
@@ -72,8 +71,7 @@ public class LiteMigratorExecuteTests : BaseTest
     // returns sorted list of IMigration with namespace path to resource
     ClearVersionInfo();
 
-    var resourceAssm = Assembly.GetExecutingAssembly();
-    var mig = new LiteMigration(TempDatabasePath, resourceAssm, _baseNamespace);
+    var mig = new LiteMigration(_baseNamespace, Assembly.GetExecutingAssembly(), TempDatabasePath);
 
     var allMigs = mig.Migrations.GetSortedMigrations();
     var missing = await mig.GetMissingMigrationsAsync();
