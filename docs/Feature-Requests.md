@@ -20,6 +20,8 @@ Template:
 * Fluent style migration script
 * Set assembly as a property not a constructor argument
 * Chain together assemblies `.ScriptsInAssembly(Assembly.GetExecutingAssembly()).ScriptsInAssembly(...)...`
+* Custom name for Version Info table. Default today is, `VersionInfo`.
+* Custom logger using Microsoft.Extensions.Logger
 
 ### Reorder the Constructors
 

@@ -44,7 +44,7 @@ public class MigratorInFileTests : BaseTest
   {
     DeleteDatabase();
 
-    var mig = new LiteMigration(_baseNamespace, Assembly.GetExecutingAssembly(), TempDatabasePath);
+    var mig = new LiteMigration(TempDatabasePath, _baseNamespace, Assembly.GetExecutingAssembly());
 
     var allMigs = mig.Migrations.GetSortedMigrations();
     var missing = await mig.GetMissingMigrationsAsync();
@@ -71,7 +71,7 @@ public class MigratorInFileTests : BaseTest
     // returns sorted list of IMigration with namespace path to resource
     ClearVersionInfo();
 
-    var mig = new LiteMigration(_baseNamespace, Assembly.GetExecutingAssembly(), TempDatabasePath);
+    var mig = new LiteMigration(TempDatabasePath, _baseNamespace, Assembly.GetExecutingAssembly());
 
     var allMigs = mig.Migrations.GetSortedMigrations();
     var missing = await mig.GetMissingMigrationsAsync();

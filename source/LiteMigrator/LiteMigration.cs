@@ -8,7 +8,6 @@
 
 using System;
 using System.Reflection;
-using LiteMigrator.Engines;
 using LiteMigrator.Factory;
 using SQLite;
 
@@ -38,45 +37,32 @@ public partial class LiteMigration : IDisposable
   ///   Assumes the current namespace, and using generic SQLite.
   /// </summary>
   public LiteMigration()
-    : this(InMemoryDatabase, string.Empty)
+    : this(InMemoryDatabase, string.Empty, null)
   {
     // Set to current namespace, it's a something
-    BaseNamespace = GetType().Namespace;
-  }
-
-  /// <summary>
-  ///   Initializes a new instance of the <see cref="LiteMigration"/> class using an in-memory database.
-  ///   Assumes in-memory database and using generic SQLite.
-  /// </summary>
-  /// <param name="baseNamespace">Namespace to scripts.</param>
-  public LiteMigration(string baseNamespace)
-    : this(InMemoryDatabase, baseNamespace)
-  {
-  }
-
-  /// <summary>
-  ///   Initializes a new instance of the <see cref="LiteMigration"/> class using an in-memory database.
-  ///   Assumes in-memory database and the current namespace contains the scripts.
-  /// </summary>
-  /// <param name="assm">Resource file with migration scripts.</param>
-  /// <param name="baseNamespace">Assembly path to migration scripts.</param>
-  public LiteMigration(string baseNamespace, Assembly assm)
-    : this(InMemoryDatabase, baseNamespace)
-  {
-    Migrations.BaseAssemblyFile = assm.Location;
+    // TODO (2025-01-01): Validate if we should use "" or GetType().Namespace
+    // OLD: BaseNamespace = GetType().Namespace;
   }
 
   /// <summary>
   ///   Initializes a new instance of the <see cref="LiteMigration"/> class.
-  ///   Assumes using SQLite.
+  ///   Assumes no namespace filter and executing assembly contains the scripts.
   /// </summary>
-  /// <param name="databasePath">Path to the SQLite database.</param>
-  /// <param name="assm">Resource file with migration scripts.</param>
-  /// <param name="baseNamespace">Namespace to scripts.</param>
-  public LiteMigration(string baseNamespace, Assembly assm, string databasePath)
-    : this(databasePath, baseNamespace)
+  /// <param name="databasePath">Path to database.</param>
+  public LiteMigration(string databasePath)
+    : this(databasePath, string.Empty, null)
   {
-    Migrations.BaseAssemblyFile = assm is null ? string.Empty : assm.Location;
+  }
+
+  /// <summary>
+  ///   Initializes a new instance of the <see cref="LiteMigration"/> class.
+  ///   Assumes executing assembly contains the scripts.
+  /// </summary>
+  /// <param name="databasePath">Path to database.</param>
+  /// <param name="baseNamespace">Assembly path to migration scripts.</param>
+  public LiteMigration(string databasePath, string baseNamespace)
+    : this(databasePath, baseNamespace, null)
+  {
   }
 
   /// <summary>
@@ -86,13 +72,11 @@ public partial class LiteMigration : IDisposable
   /// <param name="baseNamespace">Namespace to scripts.</param>
   /// <param name="databaseType">Type of database connection.</param>
   /// <param name="baseAssembly">Migration's base assembly name.</param>
-  //// public LiteMigration(string databasePath, string baseNamespace, DatabaseType databaseType, string baseAssembly = "")
   public LiteMigration(string databasePath, string baseNamespace, Assembly baseAssembly = null)
   {
     ////RevisionTable = nameof(VersionInfo);  // FUTURE
     // Set to current namespace, it's a something
     DatabasePath = databasePath;
-    //// DatabaseType = databaseType;
 
     // Create version info table here
     // Initialize().Wait();
@@ -103,6 +87,8 @@ public partial class LiteMigration : IDisposable
     };
 
     /*
+    DatabaseType = databaseType;
+
     switch (databaseType)
     {
       case DatabaseType.SQLiteCipher:
