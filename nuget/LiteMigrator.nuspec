@@ -9,12 +9,12 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <license type="file">license.txt</license>
     <icon>logo.png</icon>
-    <projectUrl>https://github.com/xenoinc/LiteMigrator</projectUrl>
+    <projectUrl>https://github.com/SuessLabs/LiteMigrator</projectUrl>
     <description>LiteMigrator is a tiny SQLite Migration framework for cross-platform projects.</description>
     <releaseNotes>Light weight SQLite migration utility</releaseNotes>
     <copyright>Copyright 2025 Xeno Innovations, Inc.</copyright>
     <tags>LiteMigrator, sqlite, lite migrator, database, migration, fluent database migration, maui, linux, xamarin, avalonia, uno.</tags>
-    <repository type="git" url="https://github.com/xenoinc/LiteMigrator" />
+    <repository type="git" url="https://github.com/SuessLabs/LiteMigrator" />
     <dependencies>
       <group targetFramework=".NETStandard2.0">
         <dependency id="sqlite-net-pcl" version="1.9.172" exclude="Build,Analyzers" />

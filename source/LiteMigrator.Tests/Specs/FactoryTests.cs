@@ -27,12 +27,12 @@ public class LiteMigratorFactoryTests : BaseTest
 
     // Act
     string ns = migrator.Migrations.GetResourceNamed(ScriptName);
-    migrator.Migrations.GetMigrationScriptByName(ns, out string sql);
+    migrator.Migrations.GetMigrationScriptByName(ns, out string? sql);
 
     // Assert
-    Assert.IsTrue(!string.IsNullOrEmpty(ns));
-    Assert.IsTrue(!string.IsNullOrEmpty(sql));
     Assert.IsNotNull(sql);
+    Assert.IsFalse(string.IsNullOrEmpty(ns));
+    Assert.IsFalse(string.IsNullOrEmpty(sql));
   }
 
   [TestMethod]
@@ -41,7 +41,7 @@ public class LiteMigratorFactoryTests : BaseTest
     var migrator = new LiteMigration(InMemoryDatabasePath, BaseNamespace, Assembly.GetExecutingAssembly());
 
     // Sample: "MyProject.Client.Business.Migrations.201909150000-BaseDDL.sql"
-    bool success = migrator.Migrations.GetMigrationScriptByName(ScriptFullName, out string data);
+    bool success = migrator.Migrations.GetMigrationScriptByName(ScriptFullName, out string? data);
 
     Assert.IsTrue(success);
     Assert.IsNotNull(data);
@@ -53,12 +53,12 @@ public class LiteMigratorFactoryTests : BaseTest
   {
     var migrator = new LiteMigration(InMemoryDatabasePath, BaseNamespace, Assembly.GetExecutingAssembly());
 
-    var results = migrator.Migrations.GetMigrationScriptByVersion(ScriptRevision, out string sql);
+    var results = migrator.Migrations.GetMigrationScriptByVersion(ScriptRevision, out string? sql);
 
     // Assert
     Assert.IsTrue(results);
-    Assert.IsTrue(!string.IsNullOrEmpty(sql));
     Assert.IsNotNull(sql);
+    Assert.IsFalse(string.IsNullOrEmpty(sql));
   }
 
   [TestMethod]

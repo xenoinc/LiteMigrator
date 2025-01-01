@@ -9,17 +9,19 @@
 6. Welcome to our contributors' list!
 
 ## How To Build
-```
-dotnet build source\SqlMigrator.sln
+
+```powershell
+dotnet build source/
 ```
 
 ## How to Test
-```
-dotnet test source\SqlMigrator.Tests\SqlMigrator.SystemTests.csproj
+
+```powershell
+dotnet test source\LiteMigrator.Tests\LiteMigrator.SystemTests.csproj
 ```
 
 ## Coding Style
-This project uses [EditorConfig](https://raw.githubusercontent.com/fluentmigrator/fluentmigrator/master/.editorconfig) to keep the coding style common. If your IDE doesn't support ``.editorconfig`` files then please tidy up before contributing.
+This project uses _EditorConfig_ to keep the coding style common. If your IDE doesn't support ``.editorconfig`` files then please tidy up before contributing.
 
 * Indent type: ``spaces``
 * Indent size: ``2``
