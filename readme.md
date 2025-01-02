@@ -43,7 +43,24 @@ Detailed instructions can be found on the [Using LiteMigrator](https://github.co
 4. Wire-up the controller
 
 
-### Use Case 1
+
+### Use Case - .NET MAUI Basic Example
+
+```cs
+  // 1. Add a few `.sql` files as Embedded Resources to project
+  //    in the namespace `MyProject.Namespace.Scripts`
+  // 2. Execute the migrates as follows
+  //    This will create the DB in your MAUI app's AppData directory.
+  var dbPath = Path.Combine(FileSystem.AppDataDirectory, "LiteMigrator.db3");
+  var scriptNamespace = "MyProject.Namespace.Scripts";
+
+  using var migrator = new Migrator(dbPath, scriptNamespace);
+
+  // Install migration scripts
+  bool isSuccessful = await migrator.MigrateUpAsync();
+```
+
+### Use Case - Migration Management
 
 ```cs
   var dbPath = Path.Combine(FileSystem.AppDataDirectory, "LiteMigrator.db3");
@@ -64,7 +81,7 @@ Detailed instructions can be found on the [Using LiteMigrator](https://github.co
   bool isSuccessful = await migrator.MigrateUpAsync();
 ```
 
-### Use Case 2 - Class Constructor
+### Use Case 2 - Manually Destruct and Close Connection
 
 ```cs
 public async Task InstallMigrationsAsync()
