@@ -22,9 +22,19 @@ public class MigrationFactory
   public MigrationFactory()
   {
     BaseNamespace = GetType().Namespace;
-    BaseAssemblyFile = string.Empty;
+    BaseAssembly = null;
+    //// BaseAssemblyFile = string.Empty;
   }
 
+  public MigrationFactory(string baseNamespace, Assembly baseAssembly)
+  {
+    BaseAssembly = baseAssembly;
+    BaseNamespace = baseNamespace;
+  }
+
+  public Assembly BaseAssembly { get; set; }
+
+  /*
   public MigrationFactory(string baseNamespace, string baseAssemblyFile = "")
   {
     BaseNamespace = baseNamespace;
@@ -55,6 +65,7 @@ public class MigrationFactory
   }
 
   public string BaseAssemblyFile { get; set; }
+  */
 
   public string BaseNamespace { get; set; }
 
@@ -79,12 +90,11 @@ public class MigrationFactory
     string result = string.Empty;
     try
     {
-      var assembly = BaseAssembly; //// Assembly.GetExecutingAssembly();
-      using (Stream stream = assembly.GetManifestResourceStream(resourcePath))
-      using (StreamReader reader = new StreamReader(stream))
-      {
-        result = reader.ReadToEnd();
-      }
+      var assembly = BaseAssembly is not null ? BaseAssembly : Assembly.GetExecutingAssembly();
+
+      using Stream stream = assembly.GetManifestResourceStream(resourcePath);
+      using StreamReader reader = new(stream);
+      result = reader.ReadToEnd();
     }
     catch (Exception ex)
     {
@@ -111,7 +121,7 @@ public class MigrationFactory
     string resName = string.Empty;
     string fileName = string.Empty;
 
-    var assembly = BaseAssembly; //// Assembly.GetExecutingAssembly();
+    var assembly = BaseAssembly;
     var items = assembly.GetManifestResourceNames()
                         .Where(name => name.StartsWith(BaseNamespace));
 
@@ -150,9 +160,11 @@ public class MigrationFactory
 
     try
     {
-      item = BaseAssembly.GetManifestResourceNames()
-                         .Where(name => name.StartsWith(BaseNamespace))
-                         .Single(x => x.Contains(containingTitle));
+      Assembly assembly = BaseAssembly is not null ? BaseAssembly : Assembly.GetExecutingAssembly();
+
+      item = assembly.GetManifestResourceNames()
+                     .Where(name => name.StartsWith(BaseNamespace))
+                     .Single(x => x.Contains(containingTitle));
     }
     catch (Exception ex)
     {
@@ -167,13 +179,7 @@ public class MigrationFactory
 
   public List<string> GetResources()
   {
-    // All loaded assemblies
-    //// var assm1 = AppDomain.CurrentDomain.GetAssemblies();
-
-    // Old method:
-    //// var assembly = Assembly.GetExecutingAssembly();
-
-    var assembly = BaseAssembly;
+    var assembly = BaseAssembly is not null ? BaseAssembly : Assembly.GetExecutingAssembly();
 
     var items = assembly.GetManifestResourceNames()
                         .Where(name => name.StartsWith(BaseNamespace))
@@ -188,10 +194,18 @@ public class MigrationFactory
   /// <remarks>Rename to, GetMigrations().</remarks>
   public SortedDictionary<long, IMigration> GetSortedMigrations()
   {
-    //// var assembly = BaseAssembly; //// Assembly.GetExecutingAssembly();
+    var assembly = BaseAssembly is not null ? BaseAssembly : Assembly.GetExecutingAssembly();
+
+    var resources = assembly.GetManifestResourceNames();
+    var items = resources
+      .Where(name => name.StartsWith(BaseNamespace) && name.EndsWith(".sql"));
+
+    /*
+    var assembly = BaseAssembly; //// Assembly.GetExecutingAssembly();
     var items = BaseAssembly
       .GetManifestResourceNames()
       .Where(name => name.StartsWith(BaseNamespace) && name.EndsWith(".sql"));
+    */
 
     // TODO: Need to check if error and report why
     // I.E.

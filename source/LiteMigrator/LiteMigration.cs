@@ -82,7 +82,8 @@ public partial class LiteMigration : IDisposable
     // Initialize().Wait();
     Migrations = new()
     {
-      BaseAssemblyFile = baseAssembly is null ? string.Empty : baseAssembly.Location,
+      // BaseAssemblyFile = baseAssembly is null ? string.Empty : baseAssembly.Location,
+      BaseAssembly = baseAssembly,
       BaseNamespace = baseNamespace,
     };
 
@@ -161,22 +162,13 @@ public partial class LiteMigration : IDisposable
   public DatabaseType DatabaseType { get; set; }
 
   /// <summary>Gets a value indicating whether is connected to the database.</summary>
-  public bool IsConnected
-  {
-    get
-    {
-      if (Connection is null)
-        return false;
-      else
-        return true;
-    }
-  }
+  public bool IsConnected => Connection is not null;
 
   /// <summary>Gets the last known error.</summary>
   public string LastError { get; private set; }
 
   /// <summary>Gets the last known error.</summary>
-  public Exception? LastException { get; private set; }
+  public Exception LastException { get; private set; }
 
   public MigrationFactory Migrations { get; private set; }
 
@@ -188,10 +180,12 @@ public partial class LiteMigration : IDisposable
     if (IsConnected)
     {
       // Disconnect so we can reconnect
+      _connection.CloseAsync().Wait();
     }
 
     try
     {
+      // Use default flags: openFlags = SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.FullMutex
       _connection = new SQLiteAsyncConnection(DatabasePath);
       return true;
     }
