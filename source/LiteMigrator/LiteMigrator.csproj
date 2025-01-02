@@ -11,11 +11,13 @@
 
     <Product>LiteMigrator</Product>
     <Description>LiteMigrator is a tiny SQLite Migration framework for cross-platform projects. Built for Xamarin mobile projects!</Description>
-    <Version>0.9.0.0</Version>
+    <Version>1.0.0.0</Version>
 
-    <PackageTags>LiteMigrator, sqlite, lite migrator, database, migration, light migrator, migrater, xamarin, fluent migrator, database migration, maui, avalonia, uno</PackageTags>
+    <PackageId>LiteMigrator</PackageId>
+    <PackageTags>LiteMigrator, sqlite, lite migrator, database, migration, mobile, light migrator, migrater, xamarin, fluent migrator, database migration, maui, avalonia, uno, linux</PackageTags>
     <PackageProjectUrl>https://github.com/SuessLabs/LiteMigrator</PackageProjectUrl>
     <PackageIcon>logo.png</PackageIcon>
+    <owners>SuessLabs,DamianSuess,xenoinc</owners>
     <RepositoryUrl>https://github.com/SuessLabs/LiteMigrator</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageReleaseNotes>Sqlite lite migration utility</PackageReleaseNotes>
