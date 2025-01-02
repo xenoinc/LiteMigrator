@@ -23,7 +23,7 @@ internal class SqlitePclEngine : IEngine
   ////  _migrationFactory = migrationFactory;
   ////}
 
-  public string LastErrorMessage { get; private set; }
+  public string LastErrorMessage { get; private set; } = string.Empty;
 
   /// <summary>Execute all missing migrations.</summary>
   /// <returns>Pass/Fail.</returns>

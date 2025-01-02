@@ -16,7 +16,7 @@ namespace LiteMigrator.SystemTests.Specs.SqliteTests
   [TestClass]
   public class RawLocalDatabaseTest
   {
-    private readonly string _dbPath = ":memory:"; // @"C:\temp\test.db"
+    private readonly string _dbPath = ":memory:";
     private SQLite.SQLiteAsyncConnection _db;
 
     public RawLocalDatabaseTest()

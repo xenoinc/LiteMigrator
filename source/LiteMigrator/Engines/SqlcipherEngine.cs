@@ -12,7 +12,7 @@ namespace LiteMigrator.Engines;
 
 internal class SqlcipherEngine : IEngine
 {
-  public string LastErrorMessage { get; private set; }
+  public string LastErrorMessage { get; private set; } = string.Empty;
 
   public bool MigrateUp()
   {
