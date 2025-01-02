@@ -7,7 +7,6 @@
  */
 
 using System.Reflection;
-using LiteMigrator;
 
 namespace LiteMigrator.SystemTests.Specs;
 
@@ -20,10 +19,14 @@ public class LiteMigratorFactoryTests : BaseTest
   private const long ScriptRevision = 201909150000;
 
   [TestMethod]
-  public void GetMigrationScriptByNameTest()
+  [DataRow(false)]
+  [DataRow(true)]
+  public void GetMigrationScriptByNameTest(bool useExecutingAssm)
   {
+    Assembly? assm = useExecutingAssm ? Assembly.GetExecutingAssembly() : null;
+
     // Arrange
-    var migrator = new Migrator(InMemoryDatabasePath, BaseNamespace, Assembly.GetExecutingAssembly());
+    var migrator = new Migrator(InMemoryDatabasePath, BaseNamespace, assm);
 
     // Act
     string ns = migrator.Migrations.GetResourceNamed(ScriptName);
@@ -36,9 +39,13 @@ public class LiteMigratorFactoryTests : BaseTest
   }
 
   [TestMethod]
-  public void GetMigrationScriptTest()
+  [DataRow(false)]
+  [DataRow(true)]
+  public void GetMigrationScriptTest(bool useExecutingAssm)
   {
-    var migrator = new Migrator(InMemoryDatabasePath, BaseNamespace, Assembly.GetExecutingAssembly());
+    Assembly? assm = useExecutingAssm ? Assembly.GetExecutingAssembly() : null;
+
+    var migrator = new Migrator(InMemoryDatabasePath, BaseNamespace, assm);
 
     // Sample: "MyProject.Client.Business.Migrations.201909150000-BaseDDL.sql"
     bool success = migrator.Migrations.GetMigrationScriptByName(ScriptFullName, out string? data);
@@ -49,8 +56,12 @@ public class LiteMigratorFactoryTests : BaseTest
   }
 
   [TestMethod]
-  public void GetMigrationScriptVerionTest()
+  [DataRow(false)]
+  [DataRow(true)]
+  public void GetMigrationScriptVerionTest(bool useExecutingAssm)
   {
+    Assembly? assm = useExecutingAssm ? Assembly.GetExecutingAssembly() : null;
+
     var migrator = new Migrator(InMemoryDatabasePath, BaseNamespace, Assembly.GetExecutingAssembly());
 
     var results = migrator.Migrations.GetMigrationScriptByVersion(ScriptRevision, out string? sql);
@@ -62,8 +73,12 @@ public class LiteMigratorFactoryTests : BaseTest
   }
 
   [TestMethod]
-  public void GetResourceNamedTest()
+  [DataRow(false)]
+  [DataRow(true)]
+  public void GetResourceNamedTest(bool useExecutingAssm)
   {
+    Assembly? assm = useExecutingAssm ? Assembly.GetExecutingAssembly() : null;
+
     // Arrange
     var migrator = new Migrator(InMemoryDatabasePath, BaseNamespace, Assembly.GetExecutingAssembly());
 
@@ -76,8 +91,12 @@ public class LiteMigratorFactoryTests : BaseTest
   }
 
   [TestMethod]
-  public void GetResourcesTests()
+  [DataRow(false)]
+  [DataRow(true)]
+  public void GetResourcesTests(bool useExecutingAssm)
   {
+    Assembly? assm = useExecutingAssm ? Assembly.GetExecutingAssembly() : null;
+
     // Arrange
     var migrator = new Migrator(InMemoryDatabasePath, BaseNamespace, Assembly.GetExecutingAssembly());
 
@@ -96,8 +115,12 @@ public class LiteMigratorFactoryTests : BaseTest
   }
 
   [TestMethod]
-  public void GetSortedMigrationsTest()
+  [DataRow(false)]
+  [DataRow(true)]
+  public void GetSortedMigrationsTest(bool useExecutingAssm)
   {
+    Assembly? assm = useExecutingAssm ? Assembly.GetExecutingAssembly() : null;
+
     // Arrange
     long oldVer = 0;
     var migrator = new Migrator(InMemoryDatabasePath, BaseNamespace, Assembly.GetExecutingAssembly());
@@ -124,8 +147,12 @@ public class LiteMigratorFactoryTests : BaseTest
   }
 
   [TestMethod]
-  public void ValidateMigrationNamingConventions()
+  [DataRow(false)]
+  [DataRow(true)]
+  public void ValidateMigrationNamingConventions(bool useExecutingAssm)
   {
+    Assembly? assm = useExecutingAssm ? Assembly.GetExecutingAssembly() : null;
+
     // Arrange
     long oldVer = 0;
     var migrator = new Migrator(InMemoryDatabasePath, BaseNamespace, Assembly.GetExecutingAssembly());

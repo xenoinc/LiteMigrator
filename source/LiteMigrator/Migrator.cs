@@ -37,7 +37,7 @@ public partial class Migrator : IDisposable
   ///   Assumes the current namespace, and using generic SQLite.
   /// </summary>
   public Migrator()
-    : this(InMemoryDatabase, string.Empty, null)
+    : this(InMemoryDatabase, string.Empty, Assembly.GetCallingAssembly())
   {
     // Set to current namespace, it's a something
     // TODO (2025-01-01): Validate if we should use "" or GetType().Namespace
@@ -70,17 +70,19 @@ public partial class Migrator : IDisposable
   /// </summary>
   /// <param name="databasePath">Path to the SQLite database.</param>
   /// <param name="baseNamespace">Namespace to scripts.</param>
-  /// <param name="databaseType">Type of database connection.</param>
   /// <param name="baseAssembly">Migration's base assembly name.</param>
-  public Migrator(string databasePath, string baseNamespace, Assembly baseAssembly = null)
+  public Migrator(string databasePath, string baseNamespace, Assembly baseAssembly)
   {
     ////RevisionTable = nameof(VersionInfo);  // FUTURE
     // Set to current namespace, it's a something
     DatabasePath = databasePath;
 
+    // Attempt to get who called us
+    baseAssembly ??= Assembly.GetCallingAssembly();
+
     Migrations = new()
     {
-      BaseAssembly = baseAssembly,  // Consider using if null, Assembly.GetCallingAssembly()
+      BaseAssembly = baseAssembly,
       BaseNamespace = baseNamespace,
     };
 
