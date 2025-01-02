@@ -21,6 +21,28 @@ public class LiteMigratorFactoryTests : BaseTest
   [TestMethod]
   [DataRow(false)]
   [DataRow(true)]
+  public void MissingBaseNamespaceFails_GetMigrationScriptByNameTest(bool useExecutingAssm)
+  {
+    Assembly? assm = useExecutingAssm ? Assembly.GetExecutingAssembly() : null;
+
+    // Arrange
+    using var migrator = new Migrator(InMemoryDatabasePath, string.Empty, assm);
+
+    // Act
+    string ns = migrator.Migrations.GetResourceNamed(ScriptName);
+    migrator.Migrations.GetMigrationScriptByName(ns, out string? sql);
+
+    // Assert
+    Assert.IsNotNull(sql);
+    Assert.IsFalse(string.IsNullOrEmpty(ns));
+
+    // Fails to get SQL file because we don't know resource path from file name.
+    Assert.IsTrue(string.IsNullOrEmpty(sql));
+  }
+
+  [TestMethod]
+  [DataRow(false)]
+  [DataRow(true)]
   public void GetMigrationScriptByNameTest(bool useExecutingAssm)
   {
     Assembly? assm = useExecutingAssm ? Assembly.GetExecutingAssembly() : null;
