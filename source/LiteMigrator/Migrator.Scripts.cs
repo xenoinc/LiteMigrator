@@ -1,7 +1,7 @@
 /* Copyright Xeno Innovations, Inc. 2019
  * Date:    2019-9-15
  * Author:  Damian Suess
- * File:    LiteMigrator.Scripts.cs
+ * File:    Migrator.Scripts.cs
  * Description:
  *  Simple SQL Migration Scripts Engine
  */
@@ -14,7 +14,7 @@ using LiteMigrator.Factory;
 namespace LiteMigrator;
 
 /// <summary>LiteMigration, migration scripts.</summary>
-public partial class LiteMigration
+public partial class Migrator
 {
   /*
   /// <summary>Executes a single migration script.</summary>

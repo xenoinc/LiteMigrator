@@ -37,7 +37,7 @@ namespace LiteMigrator.SystemTests.Specs
       // Arrange
       ClearVersionInfo();
 
-      var mig = new LiteMigration(TempDatabasePath, string.Empty);
+      var mig = new Migrator(TempDatabasePath, string.Empty);
 
       // Act
       SQLiteAsyncConnection db = new SQLiteAsyncConnection(TempDatabasePath);
@@ -55,7 +55,7 @@ namespace LiteMigrator.SystemTests.Specs
     [TestMethod]
     public async Task CanCreateVersionInfoTable_InFile_TestAsync()
     {
-      using (var mig = new LiteMigration(TempDatabasePath, string.Empty))
+      using (var mig = new Migrator(TempDatabasePath, string.Empty))
       {
         var columnInfo = await mig.Connection.GetTableInfoAsync(nameof(VersionInfo));
 
@@ -66,7 +66,7 @@ namespace LiteMigrator.SystemTests.Specs
     [TestMethod]
     public async Task CanCreateVersionInfoTable_InMemory_TestAsync()
     {
-      using (var mig = new LiteMigration())
+      using (var mig = new Migrator())
       {
         var columnInfo = await mig.Connection.GetTableInfoAsync(nameof(VersionInfo));
 
@@ -79,7 +79,7 @@ namespace LiteMigrator.SystemTests.Specs
     {
       // Arrange
       ClearVersionInfo();
-      var mig = new LiteMigration(TempDatabasePath, string.Empty);
+      var mig = new Migrator(TempDatabasePath, string.Empty);
 
       SQLiteAsyncConnection db = new SQLiteAsyncConnection(TempDatabasePath);
       await AddVersionInfoForTestsAsync(db, mig);
@@ -95,7 +95,7 @@ namespace LiteMigrator.SystemTests.Specs
       Assert.IsTrue(list.ContainsKey(202512312359), "Missing Migration, 'LTS update'");
     }
 
-    private async Task AddVersionInfoForTestsAsync(SQLiteAsyncConnection db, LiteMigration mig)
+    private async Task AddVersionInfoForTestsAsync(SQLiteAsyncConnection db, Migrator mig)
     {
       await mig.RegisterVersionAsync(db, new Migration(199609081025, "When it all began"));
       await mig.RegisterVersionAsync(db, new Migration(201912312359, "Some update"));

@@ -23,7 +23,7 @@ public class LiteMigratorFactoryTests : BaseTest
   public void GetMigrationScriptByNameTest()
   {
     // Arrange
-    var migrator = new LiteMigration(InMemoryDatabasePath, BaseNamespace, Assembly.GetExecutingAssembly());
+    var migrator = new Migrator(InMemoryDatabasePath, BaseNamespace, Assembly.GetExecutingAssembly());
 
     // Act
     string ns = migrator.Migrations.GetResourceNamed(ScriptName);
@@ -38,7 +38,7 @@ public class LiteMigratorFactoryTests : BaseTest
   [TestMethod]
   public void GetMigrationScriptTest()
   {
-    var migrator = new LiteMigration(InMemoryDatabasePath, BaseNamespace, Assembly.GetExecutingAssembly());
+    var migrator = new Migrator(InMemoryDatabasePath, BaseNamespace, Assembly.GetExecutingAssembly());
 
     // Sample: "MyProject.Client.Business.Migrations.201909150000-BaseDDL.sql"
     bool success = migrator.Migrations.GetMigrationScriptByName(ScriptFullName, out string? data);
@@ -51,7 +51,7 @@ public class LiteMigratorFactoryTests : BaseTest
   [TestMethod]
   public void GetMigrationScriptVerionTest()
   {
-    var migrator = new LiteMigration(InMemoryDatabasePath, BaseNamespace, Assembly.GetExecutingAssembly());
+    var migrator = new Migrator(InMemoryDatabasePath, BaseNamespace, Assembly.GetExecutingAssembly());
 
     var results = migrator.Migrations.GetMigrationScriptByVersion(ScriptRevision, out string? sql);
 
@@ -65,7 +65,7 @@ public class LiteMigratorFactoryTests : BaseTest
   public void GetResourceNamedTest()
   {
     // Arrange
-    var migrator = new LiteMigration(InMemoryDatabasePath, BaseNamespace, Assembly.GetExecutingAssembly());
+    var migrator = new Migrator(InMemoryDatabasePath, BaseNamespace, Assembly.GetExecutingAssembly());
 
     // Act
     string data = migrator.Migrations.GetResourceNamed(ScriptName);
@@ -79,7 +79,7 @@ public class LiteMigratorFactoryTests : BaseTest
   public void GetResourcesTests()
   {
     // Arrange
-    var migrator = new LiteMigration(InMemoryDatabasePath, BaseNamespace, Assembly.GetExecutingAssembly());
+    var migrator = new Migrator(InMemoryDatabasePath, BaseNamespace, Assembly.GetExecutingAssembly());
 
     // Act
     var items = migrator.Migrations.GetResources();
@@ -100,7 +100,7 @@ public class LiteMigratorFactoryTests : BaseTest
   {
     // Arrange
     long oldVer = 0;
-    var migrator = new LiteMigration(InMemoryDatabasePath, BaseNamespace, Assembly.GetExecutingAssembly());
+    var migrator = new Migrator(InMemoryDatabasePath, BaseNamespace, Assembly.GetExecutingAssembly());
 
     // Act
     var items = migrator.Migrations.GetSortedMigrations();
@@ -128,7 +128,7 @@ public class LiteMigratorFactoryTests : BaseTest
   {
     // Arrange
     long oldVer = 0;
-    var migrator = new LiteMigration(InMemoryDatabasePath, BaseNamespace, Assembly.GetExecutingAssembly());
+    var migrator = new Migrator(InMemoryDatabasePath, BaseNamespace, Assembly.GetExecutingAssembly());
 
     // Act
     var items = migrator.Migrations.GetSortedMigrations();
