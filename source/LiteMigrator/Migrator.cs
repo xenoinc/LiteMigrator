@@ -37,7 +37,7 @@ public partial class Migrator : IDisposable
   ///   Assumes the current namespace, and using generic SQLite.
   /// </summary>
   public Migrator()
-    : this(InMemoryDatabase, string.Empty, null)
+    : this(InMemoryDatabase, string.Empty, Assembly.GetCallingAssembly())
   {
     // Set to current namespace, it's a something
     // TODO (2025-01-01): Validate if we should use "" or GetType().Namespace
@@ -50,7 +50,7 @@ public partial class Migrator : IDisposable
   /// </summary>
   /// <param name="databasePath">Path to database.</param>
   public Migrator(string databasePath)
-    : this(databasePath, string.Empty, null)
+    : this(databasePath, string.Empty, Assembly.GetCallingAssembly())
   {
   }
 
@@ -61,7 +61,7 @@ public partial class Migrator : IDisposable
   /// <param name="databasePath">Path to database.</param>
   /// <param name="baseNamespace">Assembly path to migration scripts.</param>
   public Migrator(string databasePath, string baseNamespace)
-    : this(databasePath, baseNamespace, null)
+    : this(databasePath, baseNamespace, Assembly.GetCallingAssembly())
   {
   }
 
@@ -70,19 +70,18 @@ public partial class Migrator : IDisposable
   /// </summary>
   /// <param name="databasePath">Path to the SQLite database.</param>
   /// <param name="baseNamespace">Namespace to scripts.</param>
-  /// <param name="databaseType">Type of database connection.</param>
   /// <param name="baseAssembly">Migration's base assembly name.</param>
-  public Migrator(string databasePath, string baseNamespace, Assembly baseAssembly = null)
+  public Migrator(string databasePath, string baseNamespace, Assembly baseAssembly)
   {
     ////RevisionTable = nameof(VersionInfo);  // FUTURE
     // Set to current namespace, it's a something
     DatabasePath = databasePath;
 
-    // Create version info table here
-    // Initialize().Wait();
+    // Attempt to get who called us
+    baseAssembly ??= Assembly.GetCallingAssembly();
+
     Migrations = new()
     {
-      // BaseAssemblyFile = baseAssembly is null ? string.Empty : baseAssembly.Location,
       BaseAssembly = baseAssembly,
       BaseNamespace = baseNamespace,
     };
@@ -110,6 +109,7 @@ public partial class Migrator : IDisposable
     if (!Connect(DatabasePath))
       System.Diagnostics.Debug.WriteLine("Failed to create DB");
 
+    // Create version info table here
     // The next operation may begin before this is finished being created
     VersionInitialize();
 

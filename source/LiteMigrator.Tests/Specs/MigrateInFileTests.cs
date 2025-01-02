@@ -40,11 +40,15 @@ public class MigratorInFileTests : BaseTest
   /// </summary>
   /// <returns>Task.</returns>
   [TestMethod]
-  public async Task InstallMigrationsTestAsync()
+  [DataRow(false)]
+  [DataRow(true)]
+  public async Task InstallMigrationsTestAsync(bool useExecutingAssm)
   {
+    Assembly? assm = useExecutingAssm ? Assembly.GetExecutingAssembly() : null;
+
     DeleteDatabase();
 
-    var mig = new Migrator(TempDatabasePath, _baseNamespace, Assembly.GetExecutingAssembly());
+    var mig = new Migrator(TempDatabasePath, _baseNamespace, assm);
 
     var allMigs = mig.Migrations.GetSortedMigrations();
     var missing = await mig.GetMissingMigrationsAsync();
@@ -65,8 +69,12 @@ public class MigratorInFileTests : BaseTest
   /// <summary>Gets list of migrations not applied yet.</summary>
   /// <returns>Task.</returns>
   [TestMethod]
-  public async Task NotAllMigrationsAreInstalledTestAsync()
+  [DataRow(false)]
+  [DataRow(true)]
+  public async Task NotAllMigrationsAreInstalledTestAsync(bool useExecutingAssm)
   {
+    Assembly? assm = useExecutingAssm ? Assembly.GetExecutingAssembly() : null;
+
     // Get not installed scripts.
     // returns sorted list of IMigration with namespace path to resource
     ClearVersionInfo();

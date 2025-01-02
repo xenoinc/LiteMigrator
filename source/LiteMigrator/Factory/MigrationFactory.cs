@@ -3,7 +3,7 @@
  * Author:  Damian Suess
  * File:    MigrationFactory.cs
  * Description:
- *
+ *  Migration script factory.
  */
 
 using System;
@@ -17,13 +17,10 @@ namespace LiteMigrator.Factory;
 
 public class MigrationFactory
 {
-  //// private string _baseAssemblyFile;
-
   public MigrationFactory()
   {
-    BaseNamespace = GetType().Namespace;
+    BaseNamespace = GetType().Namespace; // Default should be null.
     BaseAssembly = null;
-    //// BaseAssemblyFile = string.Empty;
   }
 
   public MigrationFactory(string baseNamespace, Assembly baseAssembly)
@@ -32,41 +29,10 @@ public class MigrationFactory
     BaseNamespace = baseNamespace;
   }
 
+  /// <summary>Gets or sets the Assembly containing our script files.</summary>
   public Assembly BaseAssembly { get; set; }
 
-  /*
-  public MigrationFactory(string baseNamespace, string baseAssemblyFile = "")
-  {
-    BaseNamespace = baseNamespace;
-    BaseAssemblyFile = baseAssemblyFile;
-  }
-
-  public Assembly BaseAssembly
-  {
-    get
-    {
-      Assembly assm;
-
-      try
-      {
-        if (!string.IsNullOrEmpty(BaseAssemblyFile))
-          assm = Assembly.LoadFile(BaseAssemblyFile);
-        else
-          assm = Assembly.GetExecutingAssembly();
-      }
-      catch
-      {
-        System.Console.WriteLine($"Error loading assembly from file, '{BaseAssemblyFile}'");
-        assm = Assembly.GetExecutingAssembly();
-      }
-
-      return assm;
-    }
-  }
-
-  public string BaseAssemblyFile { get; set; }
-  */
-
+  /// <summary>Gets or sets the assembly's resource path where scripts are located.</summary>
   public string BaseNamespace { get; set; }
 
   /// <summary>Get migration script data using name search.</summary>
@@ -194,18 +160,12 @@ public class MigrationFactory
   /// <remarks>Rename to, GetMigrations().</remarks>
   public SortedDictionary<long, IMigration> GetSortedMigrations()
   {
+    // TODO (2025-01-01: Should just exit if BaseAssembly is null. Could mislead if called from this assembly.
     var assembly = BaseAssembly is not null ? BaseAssembly : Assembly.GetCallingAssembly();
 
     var resources = assembly.GetManifestResourceNames();
     var items = resources
       .Where(name => name.StartsWith(BaseNamespace) && name.EndsWith(".sql"));
-
-    /*
-    var assembly = BaseAssembly; //// Assembly.GetExecutingAssembly();
-    var items = BaseAssembly
-      .GetManifestResourceNames()
-      .Where(name => name.StartsWith(BaseNamespace) && name.EndsWith(".sql"));
-    */
 
     // TODO: Need to check if error and report why
     // I.E.

@@ -8,7 +8,6 @@
 
 using System.Reflection;
 using System.Threading.Tasks;
-using LiteMigrator;
 
 namespace LiteMigrator.SystemTests.Specs;
 
@@ -18,10 +17,14 @@ public sealed class MigrationInMemoryTests : BaseTest
   private const string ScriptNamespace = "LiteMigrator.SystemTests.TestData.Scripts";
 
   [TestMethod]
-  public async Task GetMigrationScriptsTestAsync()
+  [DataRow(false)]
+  [DataRow(true)]
+  public async Task GetMigrationScriptsTestAsync(bool useExecutingAssm)
   {
+    Assembly? assm = useExecutingAssm ? Assembly.GetExecutingAssembly() : null;
+
     // Initializes and performs migration.
-    var migrator = new Migrator(InMemoryDatabasePath, ScriptNamespace, Assembly.GetExecutingAssembly());
+    var migrator = new Migrator(InMemoryDatabasePath, ScriptNamespace, assm);
 
     // Find available migration scripts and those not installed
     var allMigrations = migrator.Migrations.GetSortedMigrations();
@@ -33,9 +36,13 @@ public sealed class MigrationInMemoryTests : BaseTest
   }
 
   [TestMethod]
-  public async Task InstallMigrationsAsync()
+  [DataRow(false)]
+  [DataRow(true)]
+  public async Task InstallMigrationsAsync(bool useExecutingAssm)
   {
-    using (var migrator = new Migrator(InMemoryDatabasePath, ScriptNamespace, Assembly.GetExecutingAssembly()))
+    Assembly? assm = useExecutingAssm ? Assembly.GetExecutingAssembly() : null;
+
+    using (var migrator = new Migrator(InMemoryDatabasePath, ScriptNamespace, assm))
     {
       // Act
       bool isSuccess = await migrator.MigrateUpAsync();
@@ -47,17 +54,5 @@ public sealed class MigrationInMemoryTests : BaseTest
       Assert.IsTrue(isSuccess, migrator.LastError);
       Assert.AreEqual(0, missing.Count);
     }
-  }
-
-  [TestCleanup]
-  public void TestCleanup()
-  {
-    // This method is called after each test method.
-  }
-
-  [TestInitialize]
-  public void TestInit()
-  {
-    // This method is called before each test method.
   }
 }
