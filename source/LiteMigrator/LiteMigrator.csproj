@@ -10,7 +10,7 @@
     <Copyright>Copyright 2025 Xeno Innovations, Inc.</Copyright>
 
     <Product>LiteMigrator</Product>
-    <Description>LiteMigrator is a tiny SQLite Migration framework for cross-platform projects. Built for Xamarin mobile projects!</Description>
+    <Description>LiteMigrator is a tiny cross-platform SQLite Migration framework. Built for use with .NET MAUI, Avalonia, Uno, etc. So it needs to be quick, simple with a tiny footprint.</Description>
     <Version>1.0.0.0</Version>
 
     <PackageId>LiteMigrator</PackageId>

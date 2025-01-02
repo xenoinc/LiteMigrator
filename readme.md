@@ -3,7 +3,7 @@
 <!-- <img align="right" width="90" height="90" src="https://raw.githubusercontent.com/SuessLabs/LiteMigrator/master/docs/logo.png" /> -->
 [![](https://raw.githubusercontent.com/SuessLabs/LiteMigrator/master/docs/logo.png)]()
 
-LiteMigrator is a tiny cross-platform SQLite migration framework for .NET cross-platform applications using (_.NET Standard_). This library was built for use with .NET MAUI 🐒, Avalonia, and Uno projects. So it needs to be quick, simple, and reliable when managing databases.
+LiteMigrator is a tiny cross-platform SQLite migration framework for .NET applications. This library was built for use with .NET MAUI 🐒, Avalonia, and Uno projects. So it needs to be quick, simple, and reliable when managing databases.
 
 **LiteMigrator** takes a "_migrate-up_" approach. In most app deployments, we usually move forward and rarely downgrade (_consider app stores_). This helps keep the library small and nimble. Previously known as, _SQLiteMigrator_.
 
