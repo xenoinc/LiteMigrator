@@ -194,18 +194,12 @@ public class MigrationFactory
   /// <remarks>Rename to, GetMigrations().</remarks>
   public SortedDictionary<long, IMigration> GetSortedMigrations()
   {
+    // TODO (2025-01-01: Should just exit if BaseAssembly is null. Could mislead if called from this assembly.
     var assembly = BaseAssembly is not null ? BaseAssembly : Assembly.GetCallingAssembly();
 
     var resources = assembly.GetManifestResourceNames();
     var items = resources
       .Where(name => name.StartsWith(BaseNamespace) && name.EndsWith(".sql"));
-
-    /*
-    var assembly = BaseAssembly; //// Assembly.GetExecutingAssembly();
-    var items = BaseAssembly
-      .GetManifestResourceNames()
-      .Where(name => name.StartsWith(BaseNamespace) && name.EndsWith(".sql"));
-    */
 
     // TODO: Need to check if error and report why
     // I.E.
