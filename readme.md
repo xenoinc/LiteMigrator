@@ -46,15 +46,22 @@ Detailed instructions can be found on the [Using LiteMigrator](https://github.co
 ### Use Case 1
 
 ```cs
+  var dbPath = Path.Combine(FileSystem.AppDataDirectory, "LiteMigrator.db3");
   var scriptNamespace = "MyProject.Namespace.Scripts";
 
-  using (var migrator = new LiteMigration(
-    "c:\\path\\to\\sqlite.db3",
-    scriptNamespace,
-    Assembly.GetExecutingAssembly()))
-  {
-    bool isSuccessful = await migrator.MigrateUpAsync();
-  }
+  using var migrator = new Migrator(dbPath, scriptNamespace);
+
+  // List of all embedded script files
+  var embeddedMigrations = migrator.Migrations.GetSortedMigrations();
+
+  // List of scripts installed
+  var installed = await migrator.GetInstalledMigrationsAsync();
+
+  // List of scripts waiting to be installed
+  var notInstalled = await migrator.GetMissingMigrationsAsync();
+
+  // Install migration scripts
+  bool isSuccessful = await migrator.MigrateUpAsync();
 ```
 
 ### Use Case 2 - Class Constructor
@@ -65,13 +72,12 @@ public async Task InstallMigrationsAsync()
   // Your EXE/DLL with the scripts
   var dbPath = @"C:\TEMP\MyDatabase.db3";
   var migsNamespace = "MyProjNamespace.Scripts";
-  var resourceAssm = Assembly.GetExecutingAssembly();
 
-  var liteMig = new LiteMigration(dbPath, migsNamespace, resourceAssm);
-  bool = success = await liteMig.MigrateUpAsync();
+  var migrator = new Migrator(dbPath, migsNamespace);
+  bool = success = await migrator.MigrateUpAsync();
 
   // Required after v0.6
-  liteMig.Dispose();
+  migrator.Dispose();
 }
 ```
 
