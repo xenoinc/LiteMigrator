@@ -90,7 +90,7 @@ public class MigrationFactory
     string result = string.Empty;
     try
     {
-      var assembly = BaseAssembly is not null ? BaseAssembly : Assembly.GetExecutingAssembly();
+      var assembly = BaseAssembly is not null ? BaseAssembly : Assembly.GetCallingAssembly();
 
       using Stream stream = assembly.GetManifestResourceStream(resourcePath);
       using StreamReader reader = new(stream);
@@ -160,7 +160,7 @@ public class MigrationFactory
 
     try
     {
-      Assembly assembly = BaseAssembly is not null ? BaseAssembly : Assembly.GetExecutingAssembly();
+      Assembly assembly = BaseAssembly is not null ? BaseAssembly : Assembly.GetCallingAssembly();
 
       item = assembly.GetManifestResourceNames()
                      .Where(name => name.StartsWith(BaseNamespace))
@@ -179,7 +179,7 @@ public class MigrationFactory
 
   public List<string> GetResources()
   {
-    var assembly = BaseAssembly is not null ? BaseAssembly : Assembly.GetExecutingAssembly();
+    var assembly = BaseAssembly is not null ? BaseAssembly : Assembly.GetCallingAssembly();
 
     var items = assembly.GetManifestResourceNames()
                         .Where(name => name.StartsWith(BaseNamespace))
@@ -194,7 +194,7 @@ public class MigrationFactory
   /// <remarks>Rename to, GetMigrations().</remarks>
   public SortedDictionary<long, IMigration> GetSortedMigrations()
   {
-    var assembly = BaseAssembly is not null ? BaseAssembly : Assembly.GetExecutingAssembly();
+    var assembly = BaseAssembly is not null ? BaseAssembly : Assembly.GetCallingAssembly();
 
     var resources = assembly.GetManifestResourceNames();
     var items = resources

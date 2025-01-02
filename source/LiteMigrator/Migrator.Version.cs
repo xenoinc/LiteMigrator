@@ -1,7 +1,7 @@
 /* Copyright Xeno Innovations, Inc. 2019
  * Date:    2019-9-15
  * Author:  Damian Suess
- * File:    LiteMigrator.Version.cs
+ * File:    Migrator.Version.cs
  * Description:
  *  Simple SQL Migration Versioning Engine
  */
@@ -16,7 +16,7 @@ using SQLite;
 namespace LiteMigrator;
 
 /// <summary>Version Factory of LiteMigration.</summary>
-public partial class LiteMigration
+public partial class Migrator
 {
   /// <summary>Gets or sets the list of applied migrations.</summary>
   /// <value>The list of applied migrations.</value>

@@ -1,7 +1,7 @@
 /* Copyright Xeno Innovations, Inc. 2019
  * Date:    2019-9-15
  * Author:  Damian Suess
- * File:    LiteMigrator.cs
+ * File:    Migrator.cs
  * Description:
  *  Simple SQL Migration Engine base class and constructors
  */
@@ -19,7 +19,7 @@ namespace LiteMigrator;
 ///  2. Refactor order of constructor properties (making all of them sequential).
 ///  3. Make disposable, exposing the SQLite DB object. - In-Memory tests will fail once connection is closed.
 /// </remarks>
-public partial class LiteMigration : IDisposable
+public partial class Migrator : IDisposable
 {
   private const string InMemoryDatabase = ":memory:";
 
@@ -33,10 +33,10 @@ public partial class LiteMigration : IDisposable
   */
 
   /// <summary>
-  ///   Initializes a new instance of the <see cref="LiteMigration"/> class using an in-memory database.
+  ///   Initializes a new instance of the <see cref="Migrator"/> class using an in-memory database.
   ///   Assumes the current namespace, and using generic SQLite.
   /// </summary>
-  public LiteMigration()
+  public Migrator()
     : this(InMemoryDatabase, string.Empty, null)
   {
     // Set to current namespace, it's a something
@@ -45,34 +45,34 @@ public partial class LiteMigration : IDisposable
   }
 
   /// <summary>
-  ///   Initializes a new instance of the <see cref="LiteMigration"/> class.
+  ///   Initializes a new instance of the <see cref="Migrator"/> class.
   ///   Assumes no namespace filter and executing assembly contains the scripts.
   /// </summary>
   /// <param name="databasePath">Path to database.</param>
-  public LiteMigration(string databasePath)
+  public Migrator(string databasePath)
     : this(databasePath, string.Empty, null)
   {
   }
 
   /// <summary>
-  ///   Initializes a new instance of the <see cref="LiteMigration"/> class.
+  ///   Initializes a new instance of the <see cref="Migrator"/> class.
   ///   Assumes executing assembly contains the scripts.
   /// </summary>
   /// <param name="databasePath">Path to database.</param>
   /// <param name="baseNamespace">Assembly path to migration scripts.</param>
-  public LiteMigration(string databasePath, string baseNamespace)
+  public Migrator(string databasePath, string baseNamespace)
     : this(databasePath, baseNamespace, null)
   {
   }
 
   /// <summary>
-  ///   Initializes a new instance of the <see cref="LiteMigration"/> class.
+  ///   Initializes a new instance of the <see cref="Migrator"/> class.
   /// </summary>
   /// <param name="databasePath">Path to the SQLite database.</param>
   /// <param name="baseNamespace">Namespace to scripts.</param>
   /// <param name="databaseType">Type of database connection.</param>
   /// <param name="baseAssembly">Migration's base assembly name.</param>
-  public LiteMigration(string databasePath, string baseNamespace, Assembly baseAssembly = null)
+  public Migrator(string databasePath, string baseNamespace, Assembly baseAssembly = null)
   {
     ////RevisionTable = nameof(VersionInfo);  // FUTURE
     // Set to current namespace, it's a something
